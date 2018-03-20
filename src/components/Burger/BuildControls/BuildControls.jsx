@@ -25,10 +25,15 @@ const BuildControls = (props) => {
             label={ ctrl.label }
             addIngMethod={ props.addIngMethod }
             removeIngMethod={ props.removeIngMethod }
-            checkForDisable={ props.disableChecker(ctrl.type) }
+            disableIngBtnHandler={ props.disableIngBtnHandler(ctrl.type) }
           />
         ))
       }
+      <button 
+        className={ classes.OrderButton }
+        disabled={ !props.disableCheckoutBtnHandler }
+        onClick={ props.purchasingHandler }
+      >Order Now</button>
     </div>
   );
 }

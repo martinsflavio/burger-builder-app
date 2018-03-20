@@ -4,10 +4,11 @@ import classes from './buildControl.css';
 
 const BuildControl = (props) => (
   <div className={ classes.BuildControl }>
+  
     <div className={ classes.Label }>{ props.label }</div>
 
     <button 
-      disabled={ props.checkForDisable }
+      disabled={ props.disableIngBtnHandler }
       className={ classes.Less }
       onClick={ () => props.removeIngMethod(props.type) }
     >Less</button>
