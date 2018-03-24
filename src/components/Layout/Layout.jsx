@@ -14,18 +14,18 @@ class Layout extends Component {
   }
 
   sideDrawerToogleHandler = () => {
-    this.setState(prevState => ({showSideDrawer: !prevState.showSideDrawer }));
+    this.setState(prevState => ({ showSideDrawer: !prevState.showSideDrawer }));
   }
 
   render() {
     return (
       <Fragment>
-        <Toolbar sideDrawerToogleclicked={ this.sideDrawerToogleHandler }/>
-        <SideDrawer 
-          open={ this.state.showSideDrawer } 
-          closed={ this.sideDrawerClosedhandler } />
-        <main className={ classes.Content }>
-          { this.props.children }
+        <Toolbar sideDrawerToogleclicked={this.sideDrawerToogleHandler} />
+        <SideDrawer
+          open={this.state.showSideDrawer}
+          closed={this.sideDrawerClosedhandler} />
+        <main className={classes.Content}>
+          {this.props.children}
         </main>
       </Fragment>
     );

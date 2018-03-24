@@ -9,13 +9,13 @@ const SideDrawer = (props) => {
   let attachedClasses;
   attachedClasses = [classes.SideDrawer, classes.Close];
 
-  if (props.open) { attachedClasses = [classes.SideDrawer, classes.Open]}
+  if (props.open) { attachedClasses = [classes.SideDrawer, classes.Open] }
 
   return (
     <Fragment>
-      <Backdrop show={ props.open } clicked={ props.closed }/> {/*Passing boolean props doesn't require a prop declaration*/}
-      <div className={ attachedClasses.join(' ') }>
-        <div className={ classes.Logo }>
+      <Backdrop show={props.open} clicked={props.closed} /> {/*Passing boolean props doesn't require a prop declaration*/}
+      <div className={attachedClasses.join(' ')}>
+        <div className={classes.Logo}>
           <Logo />
         </div>
         <nav>

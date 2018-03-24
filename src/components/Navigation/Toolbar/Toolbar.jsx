@@ -5,12 +5,12 @@ import DrawerToogle from '../SideDrawer/DrawerToogle/DrawerToogle';
 import classes from './toolbar.css';
 
 const Toolbar = (props) => (
-  <header className={ classes.Toolbar }>
-    <DrawerToogle clicked={props.sideDrawerToogleclicked }/>
-    <div className={ classes.Logo }>
+  <header className={classes.Toolbar}>
+    <DrawerToogle clicked={props.sideDrawerToogleclicked} />
+    <div className={classes.Logo}>
       <Logo />
     </div>
-    <nav className={ classes.DesktopOnly }>
+    <nav className={classes.DesktopOnly}>
       <NavigationItems />
     </nav>
   </header>
