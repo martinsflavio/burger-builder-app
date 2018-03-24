@@ -10,8 +10,8 @@
 /build
 
 # misc
-./idea*
-./vscode*
+./idea/*
+./vscode/*
 
 .DS_Store
 .env.local
