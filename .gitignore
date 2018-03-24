@@ -12,7 +12,7 @@
 # IDE Specific files
 .DS_Store/
 .vscode/*
-.ide/*
+.idea/*
 
 # misc
 
