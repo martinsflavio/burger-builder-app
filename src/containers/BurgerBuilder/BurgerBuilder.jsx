@@ -22,13 +22,13 @@ class BurgerBuilder extends Component {
     totalPrice: 4,
     purchaseble: false,
     purchasing: false
-  }
+  };
 
   disableCheckoutBtnHandler = (ingredients) => {
     let sum;
     sum = Object.values(ingredients).reduce((a, b) => a +b, 0);
     this.setState({ purchaseble: sum > 0 });
-  }
+  };
 
   addIngredientHandler = (type) => {  
     let newIngredients, newTotalPrice;
@@ -44,13 +44,15 @@ class BurgerBuilder extends Component {
       ingredients: newIngredients
     });
     this.disableCheckoutBtnHandler(newIngredients);
-  }
+  };
 
   removeIngredientHandler = (type) => {
     let newIngredients, newTotalPrice;
     //update ingredients list
     newIngredients = {...this.state.ingredients};
-    if (newIngredients[type] <= 0) {return};
+    if (newIngredients[type] <= 0) {
+      return
+    }
     newIngredients[type]--;
     //update burger price
     newTotalPrice = this.state.totalPrice;
@@ -61,26 +63,26 @@ class BurgerBuilder extends Component {
       ingredients: newIngredients
     });
     this.disableCheckoutBtnHandler(newIngredients);
-  }
+  };
 
   disableIngBtnHandler = (type) => {
     let ingredient = this.state.ingredients[type];
  
     return ingredient <= 0 ;
-  }
+  };
 
   purchasingHandler = () => {
     this.setState({ purchasing: true });
-  }
+  };
 
   purchaseCanceledHandler = () => {
     this.setState({ purchasing: false });
-  }
+  };
 
   puchaseContinueHandler = () => {
     console.log('you continue');
     
-  }
+  };
 
   render () {
 
