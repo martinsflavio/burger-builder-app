@@ -24,13 +24,13 @@ class BurgerBuilder extends Component {
     purchasing: false
   };
 
-  disableCheckoutBtnHandler = (ingredients) => {
+  disableCheckoutBtnHandler = ingredients => {
     let sum;
     sum = Object.values(ingredients).reduce((a, b) => a + b, 0);
     this.setState({ purchaseble: sum > 0 });
   };
 
-  addIngredientHandler = (type) => {
+  addIngredientHandler = type => {
     let newIngredients, newTotalPrice;
     //update ingredients list
     newIngredients = { ...this.state.ingredients };
@@ -46,7 +46,7 @@ class BurgerBuilder extends Component {
     this.disableCheckoutBtnHandler(newIngredients);
   };
 
-  removeIngredientHandler = (type) => {
+  removeIngredientHandler = type => {
     let newIngredients, newTotalPrice;
     //update ingredients list
     newIngredients = { ...this.state.ingredients };
@@ -65,7 +65,7 @@ class BurgerBuilder extends Component {
     this.disableCheckoutBtnHandler(newIngredients);
   };
 
-  disableIngBtnHandler = (type) => {
+  disableIngBtnHandler = type => {
     let ingredient = this.state.ingredients[type];
 
     return ingredient <= 0;
@@ -80,8 +80,7 @@ class BurgerBuilder extends Component {
   };
 
   puchaseContinueHandler = () => {
-    console.log('you continue');
-
+    alert('you continue');
   };
 
   render() {

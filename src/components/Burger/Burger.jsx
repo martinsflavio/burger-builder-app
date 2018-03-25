@@ -3,7 +3,7 @@ import BurgerIngredient from './Burgeringredient/BurgerIngredient';
 
 import classes from './burger.css';
 
-const burger = (props) => {
+const Burger = (props) => {
 
   // Transforms props.ingredients obj into a array flat array
   let transformedIngredients = Object.keys(props.ingredients)
@@ -31,4 +31,4 @@ const burger = (props) => {
   );
 }
 
-export default burger;
+export default Burger;

@@ -1,28 +1,39 @@
-import React, { Fragment } from 'react';
-import BackDrop from '../BackDrop/BackDrop'
+import React, { Component, Fragment } from 'react';
+import BackDrop from '../BackDrop/BackDrop';
+import PropTypes from 'prop-types'
 import classes from './modal.css';
 
-const Modal = (props) => {
-  let showModal;
+class Modal extends Component {
 
-  showModal = {
-    transform: props.show ? 'translateY(0)' : 'translateY(-100vh)',
-    opacity: props.show ? '1' : '0'
-  };
+  shouldComponentUpdate = nextProps => nextProps.show !== this.props.show;
 
-  return (
-    <Fragment>
-      <BackDrop
-        show={props.show}
-        clicked={props.purchaseCanceled}
-      />
-      <div
-        className={classes.Modal}
-        style={showModal} >
-        {props.children}
-      </div>
-    </Fragment>
-  )
-};
+  render () {
+    let showModal;
+
+    showModal = {
+      transform:this.props.show ? 'translateY(0)' : 'translateY(-100vh)',
+      opacity: this.props.show ? '1' : '0'
+    };
+
+    return (
+      <Fragment>
+        <BackDrop
+          show={this.props.show}
+          clicked={this.props.purchaseCanceled}
+        />
+        <div
+          className={classes.Modal}
+          style={showModal} >
+          {this.props.children}
+        </div>
+      </Fragment>
+    );
+  }
+}
+
+Modal.propTypes = {
+  show: PropTypes.bool.isRequired,
+  purchaseCanceled: PropTypes.func.isRequired
+}
 
 export default Modal;
