@@ -1,41 +1,41 @@
-import React from 'react';
+import React, { Component } from 'react';
 import BuildControl from './BuildControl/BuildControl';
 
 import classes from './buildControls.css';
 
-const controls = [
-  { label: 'Salad', type: 'salad' },
-  { label: 'Bacon', type: 'bacon' },
-  { label: 'Meat', type: 'meat' },
-  { label: 'Cheese', type: 'cheese' }
-];
+class BuildControls extends Component {
 
-const BuildControls = (props) => {
-  //formating burger final price
-  let price = props.totalPrice.toFixed(2);
+  capitalize = str => str.charAt(0).toUpperCase() + str.slice(1);
 
-  return (
-    <div className={classes.BuildControls}>
-      <h3>Burger Price: $ {price}</h3>
-      {
-        controls.map(ctrl => (
-          <BuildControl
-            key={ctrl.type}
-            type={ctrl.type}
-            label={ctrl.label}
-            addIngMethod={props.addIngMethod}
-            removeIngMethod={props.removeIngMethod}
-            disableIngBtnHandler={props.disableIngBtnHandler(ctrl.type)}
-          />
-        ))
-      }
-      <button
-        className={classes.OrderButton}
-        disabled={!props.disableCheckoutBtnHandler}
-        onClick={props.purchasingHandler}
-      >Order Now</button>
-    </div>
-  );
+  render () {
+    let price, controlsList;
+
+    controlsList = Object.keys(this.props.ingredients);
+    price = this.props.totalPrice.toFixed(2);
+
+    return (
+      <div className={classes.BuildControls}>
+        <h3>Burger Price: $ {price}</h3>
+        {
+          controlsList.map((ctrl, id) => (
+            <BuildControl
+              key={id}
+              type={ctrl}
+              label={this.capitalize(ctrl)}
+              addIngMethod={this.props.addIngMethod}
+              removeIngMethod={this.props.removeIngMethod}
+              disableIngBtnHandler={this.props.disableIngBtnHandler(ctrl)}
+            />
+          ))
+        }
+        <button
+          className={classes.OrderButton}
+          disabled={!this.props.disableCheckoutBtnHandler}
+          onClick={this.props.purchasingHandler}
+        >Order Now</button>
+      </div>
+    );
+  }
 }
 
 export default BuildControls;

@@ -1,11 +1,14 @@
-import React, { Component, Fragment } from 'react';
+import React, {Component, Fragment} from 'react';
 import BackDrop from '../BackDrop/BackDrop';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import classes from './modal.css';
 
 class Modal extends Component {
 
-  shouldComponentUpdate = nextProps => nextProps.show !== this.props.show;
+  shouldComponentUpdate (nextProps) {
+   return nextProps.show !== this.props.show ||
+          nextProps.children !== this.props.children;
+  };
 
   render () {
     let showModal;
@@ -19,7 +22,7 @@ class Modal extends Component {
       <Fragment>
         <BackDrop
           show={this.props.show}
-          clicked={this.props.purchaseCanceled}
+          clicked={this.props.clicked}
         />
         <div
           className={classes.Modal}
@@ -33,7 +36,7 @@ class Modal extends Component {
 
 Modal.propTypes = {
   show: PropTypes.bool.isRequired,
-  purchaseCanceled: PropTypes.func.isRequired
-}
+  clicked: PropTypes.func.isRequired
+};
 
 export default Modal;

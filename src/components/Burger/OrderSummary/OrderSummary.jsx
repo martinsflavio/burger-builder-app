@@ -7,7 +7,7 @@ class OrderSummary extends Component {
   render () {
     let ingredientsList, totalPrice;
 
-    //formating burger final price
+    //formatting burger final price
     totalPrice = this.props.burgerPrice.toFixed(2);
 
     //turn ingredients obj into a array
@@ -32,7 +32,7 @@ class OrderSummary extends Component {
         <p><strong>{`$ ${totalPrice}`}</strong></p>
         <p>Continue to Checkout?</p>
         <Button btnType="Danger" clicked={this.props.purchaseCanceled}>Cancel</Button>
-        <Button btnType="Success" clicked={this.props.puchaseContinue}>Continue</Button>
+        <Button btnType="Success" clicked={this.props.purchaseContinue}>Continue</Button>
       </Fragment>
     );
   }
@@ -41,7 +41,7 @@ class OrderSummary extends Component {
 OrderSummary.propTypes ={
   burgerPrice: PropTypes.number.isRequired,
   ingredients: PropTypes.objectOf(PropTypes.number),
-  puchaseContinue: PropTypes.func.isRequired,
+  purchaseContinue: PropTypes.func.isRequired,
   purchaseCanceled: PropTypes.func.isRequired
 }
 
