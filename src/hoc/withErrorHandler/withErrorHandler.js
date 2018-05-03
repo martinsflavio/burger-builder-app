@@ -35,7 +35,7 @@ const withErrorHandler = (WrappedComponent, axios) => {
     render () {
       return (
         <Fragment>
-          <Modal show={this.state.error} clicked={this.errorConfirmHandler}>
+          <Modal show={this.state.error} clickedOutSide={this.errorConfirmHandler}>
             {this.state.errorMessage}
           </Modal>
           <WrappedComponent {...this.props} />

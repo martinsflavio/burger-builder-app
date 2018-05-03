@@ -1,9 +1,8 @@
 import React, { Fragment } from 'react';
+import classes from './SideDrawer.css';
 import Logo from '../../Logo/Logo';
 import NavigationItems from '../../Navigation/NavigationItems/NavigationItems';
 import Backdrop from '../../UI/BackDrop/BackDrop';
-
-import classes from './SideDrawer.css';
 
 const SideDrawer = (props) => {
   let attachedClasses;

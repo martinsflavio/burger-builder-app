@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from 'react';
-import Button from '../../UI/Button/Button';
 import PropTypes from 'prop-types';
+import Button from '../../UI/Button/Button';
+
+
 
 
 class OrderSummary extends Component {

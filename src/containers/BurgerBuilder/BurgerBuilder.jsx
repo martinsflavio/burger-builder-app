@@ -5,7 +5,7 @@ import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
-import Spinner from '../../components/UI/Spiner/Spiner';
+import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 
 
@@ -21,20 +21,22 @@ class BurgerBuilder extends Component {
   };
 
   async componentDidMount () {
-    let ingredients, ingredientsPrices;
+    let initObj;
 
-    ingredients = await axios.get('./ingredients.json');
-    ingredientsPrices = await axios.get('/ingredientsPrices.json');
+    initObj = await axios.get('initialize.json');
 
-    if (ingredientsPrices instanceof Error || ingredients instanceof Error) {
+    if (initObj instanceof Error) {
       this.setState({error: 'Server connection Fail!'});
     } else {
+      initObj = {...initObj.data};
+      if (this.props.location.state) {
+        initObj.ingredients = this.props.location.state.order.ingredients;
+      }
       this.setState({
-        ingredients: ingredients.data,
-        ingredientsPrices: ingredientsPrices.data
+        ingredients: initObj.ingredients,
+        ingredientsPrices: initObj.ingredientsPrices
       });
     }
-
   };
 
   disableCheckoutBtnHandler = ingredients => {
@@ -92,35 +94,24 @@ class BurgerBuilder extends Component {
     this.setState({ purchasing: false });
   };
 
-  purchaseContinueHandler = async () => {
-    let orderRequest;
+  purchaseContinueHandler = () => {
+    let state;
 
-    this.setState({loading: true});
-
-    orderRequest = {
-      ingredients: this.state.ingredients,
-      price: this.state.totalPrice,
-      costumer: {
-        name: 'Flavio',
-        Address: {
-          street: '4711 Callan #3',
-          zipCode: '94015',
-          country: 'usa'
-        },
-        email: 'flaviodosreismartins@gmail.com'
-      
-      },
-      deliveryMethod: 'express'
+    state = {
+      ingredients: {...this.state.ingredients},
+      totalPrice: this.state.totalPrice
     };
 
-    await axios.post( '/orders.json', orderRequest);
-
-    this.setState({loading: false, purchasing: false});
+    this.props.history.push({
+      pathname:'/checkout',
+      state: state
+    })
   };
 
   render() {
     let orderSummary, burger;
 
+    // Local Errors Handler
     burger = this.state.error ? <h3>{this.state.error}</h3> : <Spinner />;
     orderSummary = null;
 
@@ -153,7 +144,7 @@ class BurgerBuilder extends Component {
       <Fragment>
         <Modal
           show={this.state.purchasing}
-          clicked={this.purchaseCanceledHandler}>
+          clickedOutSide={this.purchaseCanceledHandler}>
           {orderSummary}
         </Modal>
         {burger}

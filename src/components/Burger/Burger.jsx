@@ -1,7 +1,8 @@
 import React from 'react';
+import classes from './burger.css';
 import BurgerIngredient from './Burgeringredient/BurgerIngredient';
 
-import classes from './burger.css';
+
 
 const Burger = (props) => {
 
@@ -29,6 +30,6 @@ const Burger = (props) => {
       <BurgerIngredient type="bread-bottom" />
     </div>
   );
-}
+};
 
 export default Burger;
