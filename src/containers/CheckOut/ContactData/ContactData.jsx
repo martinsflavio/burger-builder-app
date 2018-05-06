@@ -5,60 +5,147 @@ import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 import classes from './contactData.css';
 import Button from '../../../components/UI/Button/Button';
 import Spinner from '../../../components/UI/Spinner/Spinner';
+import Input from "../../../components/UI/Form/Input/Input";
+import objDeepCopyUtil from "../../../utils/objDeepCopy";
+
+//TODO: Extract  <Form /> logic into it's own component such as the following Example:
+/*
+<ContactData >
+  <Form>
+    <Input />
+  <Form />
+<ContactData />
+*/
 
 class ContactData extends Component {
   state = {
-    costumer: {
-      name: 'Flavio',
-      Address: {
-        street: '4711 Callan #3',
-        zipCode: '94015',
-        country: 'usa'
+    orderForm: {
+      name: {
+        elementType: 'input',
+        elementConfig: {
+          type: 'text',
+          placeholder: 'Your Name'
+        },
+        value: ''
       },
-      email: 'flaviodosreismartins@gmail.com'
+      street: {
+        elementType: 'input',
+        elementConfig: {
+          type: 'text',
+          placeholder: 'Street'
+        },
+        value: ''
+      },
+      zipCode: {
+        elementType: 'input',
+        elementConfig: {
+          type: 'text',
+          placeholder: 'ZIP Code'
+        },
+        value: ''
+      },
+      country: {
+        elementType: 'input',
+        elementConfig: {
+          type: 'text',
+          placeholder: 'Country'
+        },
+        value: ''
+      },
+      email: {
+        elementType: 'input',
+        elementConfig: {
+          type: 'email',
+          placeholder: 'example@something.com'
+        },
+        value: ''
+      },
+      deliveryMethod: {
+        elementType: 'select',
+        elementConfig: {
+          options: [
+            {value: 'express', displayValue: 'Express'},
+            {value: 'standard', displayValue: 'Standard'}
+          ]
+        },
+        value: ''
+      }
     },
-    deliveryMethod: 'express',
     loading: false,
-    orderSuccess: false,
     error: null
   };
 
   orderHandler = async (e) => {
-    let orderRequest, orderResponse;
-    e.preventDefault();
-    this.setState({loading: true});
+    let orderObj, orderRequest, orderResponse, orderForm;
 
+    // Initializing variables
+    e.preventDefault();
+    orderObj = this.props.order;
+    orderForm = {...this.state.orderForm};
     orderRequest = {
-      order: this.props.order,
-      costumer: this.state.costumer
+      costumer: {},
+      ingredients: orderObj.ingredients,
+      totalPrice: orderObj.totalPrice
     };
 
+    //Transforming ingredients Obj
+    for (let costumerData in orderForm) {
+      if (orderForm.hasOwnProperty(costumerData)) {
+        orderRequest.costumer[costumerData] = orderForm[costumerData].value;
+      }
+    }
+
+    this.setState({loading: true});
     orderResponse = await axios.post('/orders.json', orderRequest);
 
+    //Local Error Handler
     if (orderResponse instanceof  Error) {
       this.setState({error: 'Server connection Fail!', loading: false});
     } else {
-      this.setState({orderSuccess: true, loading: false});
-
-      this.props.history.push('/', orderRequest);
+      this.setState({loading: false});
+      this.props.history.push('/');
     }
   };
 
+  inputChangedHandler = (e, elementId) => {
+    let updatedOrderForm, inputValue;
+
+    inputValue = e.target.value;
+    updatedOrderForm = objDeepCopyUtil(this.state.orderForm);
+
+    updatedOrderForm[elementId].value = inputValue;
+
+    this.setState({orderForm: updatedOrderForm});
+  };
+
   render () {
-    let form;
+    let form = null, formElementArray = [], inputArray = [];
+
+    for (let key in this.state.orderForm) {
+     if (this.state.orderForm.hasOwnProperty(key)) {
+       formElementArray.push({id: key, config: this.state.orderForm[key]});
+     }
+    }
 
     if (this.state.loading) {
       form = <Spinner/>
     } else {
+      inputArray = formElementArray.map(formElement => (
+        <Input
+          key={formElement.id}
+          elementType={formElement.config.elementType}
+          elementConfig={formElement.config.elementConfig}
+          value={formElement.config.value}
+          changed={(e) => this.inputChangedHandler(e, formElement.id)}
+        />
+      ));
+
       form = (
         <Fragment>
           <h4>Enter your Contact Data</h4>
-          <form>
-            <input type="text" name="name" placeholder="Your Name" />
-            <input type="email" name="email" placeholder="Your Email" />
-            <input type="text" name="street" placeholder="Your Street" />
-            <input type="text" name="zipcode" placeholder="Your ZipCode" />
-            <Button btnType="Success" clicked={this.orderHandler}>Order</Button>
+          <form onSubmit={this.orderHandler}>
+            { inputArray }
+            <Button btnType="Success">Order</Button>
           </form>
         </Fragment>
       );

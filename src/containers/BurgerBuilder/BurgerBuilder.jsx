@@ -29,9 +29,6 @@ class BurgerBuilder extends Component {
       this.setState({error: 'Server connection Fail!'});
     } else {
       initObj = {...initObj.data};
-      if (this.props.location.state) {
-        initObj.ingredients = this.props.location.state.order.ingredients;
-      }
       this.setState({
         ingredients: initObj.ingredients,
         ingredientsPrices: initObj.ingredientsPrices

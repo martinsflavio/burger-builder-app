@@ -10,7 +10,7 @@ class Orders extends Component {
     orders: null,
     error: null
   };
-
+  //TODO: refactor obj transformation try to eliminate orderArrayBuilder and orderListBuilder
   async componentDidMount () {
     const ordersReq = await axios.get('/orders.json');
 
@@ -26,7 +26,7 @@ class Orders extends Component {
 
     for (const key in ordObj){
       if (ordObj.hasOwnProperty(key)) {
-        ordArray.push({...ordObj[key], id: key});
+        ordArray.push({...ordObj[key], orderId: key});
       }
     }
     return ordArray;
@@ -36,8 +36,8 @@ class Orders extends Component {
     if (Array.isArray(ordArray)) {
       return ordArray.map(order => {
         return (
-          <li key={order.id}>
-            <Order order={order.order}/>
+          <li key={order.orderId}>
+            <Order ingredients={order.ingredients} totalPrice={order.totalPrice}/>
           </li>
 
         );
