@@ -1,21 +1,11 @@
-import React, {Component, Fragment} from 'react';
+import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import axios from '../../../utils/axiosAPI';
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 import classes from './contactData.css';
-import Button from '../../../components/UI/Button/Button';
 import Spinner from '../../../components/UI/Spinner/Spinner';
-import Input from "../../../components/UI/Form/Input/Input";
 import objDeepCopyUtil from "../../../utils/objDeepCopy";
-
-//TODO: Extract  <Form /> logic into it's own component such as the following Example:
-/*
-<ContactData >
-  <Form>
-    <Input />
-  <Form />
-<ContactData />
-*/
+import Form from "../../../components/UI/Form/Form";
 
 class ContactData extends Component {
   state = {
@@ -75,13 +65,14 @@ class ContactData extends Component {
     error: null
   };
 
-  orderHandler = async (e) => {
+  submitOrderHandler = async (e) => {
     let orderObj, orderRequest, orderResponse, orderForm;
 
-    // Initializing variables
     e.preventDefault();
+
+    // Initializing variables
     orderObj = this.props.order;
-    orderForm = {...this.state.orderForm};
+    orderForm = objDeepCopyUtil(this.state.orderForm);
     orderRequest = {
       costumer: {},
       ingredients: orderObj.ingredients,
@@ -107,53 +98,24 @@ class ContactData extends Component {
     }
   };
 
-  inputChangedHandler = (e, elementId) => {
-    let updatedOrderForm, inputValue;
-
-    inputValue = e.target.value;
-    updatedOrderForm = objDeepCopyUtil(this.state.orderForm);
-
-    updatedOrderForm[elementId].value = inputValue;
-
-    this.setState({orderForm: updatedOrderForm});
+  changeInputHandler = (newFormObj) => {
+    this.setState({orderForm: objDeepCopyUtil(newFormObj)})
   };
 
   render () {
-    let form = null, formElementArray = [], inputArray = [];
-
-    for (let key in this.state.orderForm) {
-     if (this.state.orderForm.hasOwnProperty(key)) {
-       formElementArray.push({id: key, config: this.state.orderForm[key]});
-     }
-    }
-
-    if (this.state.loading) {
-      form = <Spinner/>
-    } else {
-      inputArray = formElementArray.map(formElement => (
-        <Input
-          key={formElement.id}
-          elementType={formElement.config.elementType}
-          elementConfig={formElement.config.elementConfig}
-          value={formElement.config.value}
-          changed={(e) => this.inputChangedHandler(e, formElement.id)}
-        />
-      ));
-
-      form = (
-        <Fragment>
-          <h4>Enter your Contact Data</h4>
-          <form onSubmit={this.orderHandler}>
-            { inputArray }
-            <Button btnType="Success">Order</Button>
-          </form>
-        </Fragment>
-      );
-    }
 
     return (
       <div className={classes.ContactData}>
-        { form }
+        {
+          this.state.loading ?
+            <Spinner />
+              :
+            <Form
+              orderForm={objDeepCopyUtil(this.state.orderForm)}
+              changeInput={this.changeInputHandler}
+              submitOrderHandler={this.submitOrderHandler}
+            />
+        }
       </div>
     );
   }

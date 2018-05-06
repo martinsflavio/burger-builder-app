@@ -1,86 +1,48 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import classes from './form.css';
 import Button from "../Button/Button";
 import Input from "./Input/Input";
 
 class Form extends Component {
-  state = {
-    orderForm: {
-      name: {
-        elementType: 'input',
-        elementConfig: {
-          type: 'text',
-          placeholder: 'Your Name'
-        },
-        value: ''
-      },
-      street: {
-        elementType: 'input',
-        elementConfig: {
-          type: 'text',
-          placeholder: 'Street'
-        },
-        value: ''
-      },
-      zipCode: {
-        elementType: 'input',
-        elementConfig: {
-          type: 'text',
-          placeholder: 'ZIP Code'
-        },
-        value: ''
-      },
-      country: {
-        elementType: 'input',
-        elementConfig: {
-          type: 'text',
-          placeholder: 'Country'
-        },
-        value: ''
-      },
-      email: {
-        elementType: 'input',
-        elementConfig: {
-          type: 'email',
-          placeholder: 'example@something.com'
-        },
-        value: ''
-      },
-      deliveryMethod: {
-        elementType: 'select',
-        elementConfig: {
-          options: [
-            {value: 'express', displayValue: 'Express'},
-            {value: 'standard', displayValue: 'Standard'}
-          ]
-        },
-        value: ''
-      }
-    },
-    loading: false,
-    error: null
+
+  inputChangeHandler = (e, input, inputsObj) => {
+    let inputValue;
+
+    inputValue = e.target.value;
+    inputsObj[input.id].value = inputValue;
+
+    this.props.changeInput(inputsObj);
   };
 
-
-
   render () {
+    let inputsArray = [], inputsObj;
+
+    inputsObj = this.props.orderForm;
+
+    for (let key in inputsObj) {
+      if (inputsObj.hasOwnProperty(key)) {
+        inputsArray.push({element: inputsObj[key], id: key});
+      }
+    }
 
     return (
-      <Fragment>
+      <div className={classes.Form}>
         <h4>Enter your Contact Data</h4>
         <form onSubmit={this.props.submitOrderHandler}>
-          {this.props.formElementArray.map(formElement => (
-            <Input
-              key={formElement.id}
-              elementType={formElement.config.elementType}
-              elementConfig={formElement.config.elementConfig}
-              value={formElement.config.value}
-              changed={(e) => this.props.inputChangedHandler(e, formElement.id)}
-            />
-          ))}
+          {
+            inputsArray.map(input => (
+              <Input
+                key={input.id}
+                elementType={input.element.elementType}
+                elementConfig={input.element.elementConfig}
+                value={input.element.value}
+                changed={(e) => this.inputChangeHandler(e, input, inputsObj)}
+              />
+            ))
+          }
           <Button btnType="Success">Order</Button>
         </form>
-      </Fragment>
+      </div>
     );
   }
 }
