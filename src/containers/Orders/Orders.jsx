@@ -10,6 +10,7 @@ class Orders extends Component {
     orders: null,
     error: null
   };
+
   //TODO: refactor obj transformation try to eliminate orderArrayBuilder and orderListBuilder
   async componentDidMount () {
     const ordersReq = await axios.get('/orders.json');
@@ -17,7 +18,7 @@ class Orders extends Component {
     if (ordersReq instanceof Error) {
       this.setState({error: ordersReq});
     } else {
-      this.setState({orders: [...this.orderArrayBuilder(ordersReq.data)]});
+      this.setState({orders:[...this.orderArrayBuilder(ordersReq.data)]});
     }
   };
 

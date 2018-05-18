@@ -98,8 +98,8 @@ class ContactData extends Component {
     }
   };
 
-  changeInputHandler = (newFormObj) => {
-    this.setState({orderForm: objDeepCopyUtil(newFormObj)})
+  changeInputHandler = orderForm => {
+    this.setState({orderForm: objDeepCopyUtil(orderForm)})
   };
 
   render () {
@@ -112,7 +112,7 @@ class ContactData extends Component {
               :
             <Form
               orderForm={objDeepCopyUtil(this.state.orderForm)}
-              changeInput={this.changeInputHandler}
+              changeInput={(prevState) => this.changeInputHandler(prevState)}
               submitOrderHandler={this.submitOrderHandler}
             />
         }

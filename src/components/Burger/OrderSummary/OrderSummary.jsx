@@ -9,7 +9,7 @@ class OrderSummary extends Component {
   render () {
     let ingredientsList, totalPrice;
 
-    //formatting burger final price
+    //formatting burger objToMapTransformer price
     totalPrice = this.props.burgerPrice.toFixed(2);
 
     //turn ingredients obj into a array

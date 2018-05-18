@@ -8,7 +8,6 @@ import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 
-
 class BurgerBuilder extends Component {
   state = {
     ingredients: null,
@@ -29,6 +28,7 @@ class BurgerBuilder extends Component {
       this.setState({error: 'Server connection Fail!'});
     } else {
       initObj = {...initObj.data};
+
       this.setState({
         ingredients: initObj.ingredients,
         ingredientsPrices: initObj.ingredientsPrices
