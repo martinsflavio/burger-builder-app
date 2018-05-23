@@ -10,23 +10,11 @@ import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
 
 class Orders extends Component {
 
-  //TODO: refactor obj transformation try to eliminate orderArrayBuilder and orderListBuilder
   async componentDidMount () {
     this.props.fetchOrders();
   };
 
-  orderArrayBuilder = (ordObj) => {
-    const ordArray = [];
-
-    for (const key in ordObj){
-      if (ordObj.hasOwnProperty(key)) {
-        ordArray.push({...ordObj[key], orderId: key});
-      }
-    }
-    return ordArray;
-  };
-
-  orderListBuilder = (ordArray) => {
+  orderListBuilder = ordArray => {
     if (Array.isArray(ordArray)) {
       return ordArray.map(order => {
         return (
