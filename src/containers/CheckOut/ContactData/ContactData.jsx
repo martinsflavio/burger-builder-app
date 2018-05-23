@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import axios from '../../../utils/axiosAPI';
+import { connect } from 'react-redux';
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
+import axios from '../../../utils/axiosAPI';
 import classes from './contactData.css';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import objDeepCopyUtil from "../../../utils/objDeepCopy";
@@ -66,17 +67,16 @@ class ContactData extends Component {
   };
 
   submitOrderHandler = async (e) => {
-    let orderObj, orderRequest, orderResponse, orderForm;
+    let orderRequest, orderResponse, orderForm;
 
     e.preventDefault();
 
     // Initializing variables
-    orderObj = this.props.order;
     orderForm = objDeepCopyUtil(this.state.orderForm);
     orderRequest = {
       costumer: {},
-      ingredients: orderObj.ingredients,
-      totalPrice: orderObj.totalPrice
+      ingredients: this.props.ings,
+      totalPrice: this.props.totalPrice
     };
 
     //Transforming ingredients Obj
@@ -103,7 +103,6 @@ class ContactData extends Component {
   };
 
   render () {
-
     return (
       <div className={classes.ContactData}>
         {
@@ -121,4 +120,13 @@ class ContactData extends Component {
   }
 }
 
-export default withErrorHandler(withRouter(ContactData), axios);
+const mapStateToProps = state => {
+  return {
+    ings: state.ingredients,
+    totalPrice: state.totalPrice
+  }
+};
+
+export default connect(mapStateToProps)(
+  withErrorHandler(withRouter(ContactData), axios)
+);

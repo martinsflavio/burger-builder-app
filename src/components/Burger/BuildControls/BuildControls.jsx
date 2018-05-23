@@ -35,7 +35,7 @@ class BuildControls extends Component {
         {this.controlBuilder(this.props.ingredients)}
         <button
           className={classes.OrderButton}
-          disabled={!this.props.disableCheckoutBtnHandler}
+          disabled={!this.props.disableCheckoutBtnHandler(this.props.ingredients)}
           onClick={this.props.purchasingHandler}
         >Order Now</button>
       </div>

@@ -1,25 +1,18 @@
 import React, { Component } from 'react';
 import axios from '../../utils/axiosAPI';
+import { connect } from 'react-redux';
+import * as action from '../../store/actions/index';
+
 import classes from './orders.css';
 import Order from "../../components/Order/Order";
 import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
 
 class Orders extends Component {
-  state = {
-    orders: null,
-    error: null
-  };
 
   //TODO: refactor obj transformation try to eliminate orderArrayBuilder and orderListBuilder
   async componentDidMount () {
-    const ordersReq = await axios.get('/orders.json');
-
-    if (ordersReq instanceof Error) {
-      this.setState({error: ordersReq});
-    } else {
-      this.setState({orders:[...this.orderArrayBuilder(ordersReq.data)]});
-    }
+    this.props.fetchOrders();
   };
 
   orderArrayBuilder = (ordObj) => {
@@ -49,10 +42,14 @@ class Orders extends Component {
   render () {
     let ordersList;
 
-    if (this.state.orders) {
-      ordersList = (<ul>{this.orderListBuilder(this.state.orders)}</ul>);
+    if (this.props.error) {
+      ordersList = (<h3>{this.props.error}</h3>);
     } else {
-      ordersList = (<Spinner/>);
+      if (this.props.orders) {
+        ordersList = (<ul>{this.orderListBuilder(this.props.orders)}</ul>);
+      } else {
+        ordersList = (<Spinner/>);
+      }
     }
 
     return (
@@ -63,4 +60,19 @@ class Orders extends Component {
   }
 }
 
-export default withErrorHandler(Orders, axios);
+const mapStateToProps = state => {
+  return {
+    orders: state.order.ordersArray,
+    error: state.order.error
+  }
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchOrders: () => dispatch(action.fetchOrders())
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(
+  withErrorHandler(Orders, axios)
+);
