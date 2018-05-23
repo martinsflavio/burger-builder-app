@@ -75,7 +75,7 @@ class ContactData extends Component {
     orderForm = objDeepCopyUtil(this.state.orderForm);
     orderRequest = {
       costumer: {},
-      ingredients: this.props.ings,
+      ingredients: this.props.ingredients,
       totalPrice: this.props.totalPrice
     };
 
@@ -87,7 +87,7 @@ class ContactData extends Component {
     }
 
     this.setState({loading: true});
-    orderResponse = await axios.post('/orders.json', orderRequest);
+    orderResponse = await axios.post('/ordersArray.json', orderRequest);
 
     //Local Error Handler
     if (orderResponse instanceof  Error) {
@@ -122,7 +122,7 @@ class ContactData extends Component {
 
 const mapStateToProps = state => {
   return {
-    ings: state.ingredients,
+    ingredients: state.ingredients,
     totalPrice: state.totalPrice
   }
 };

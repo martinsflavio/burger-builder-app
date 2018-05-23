@@ -9,12 +9,12 @@ export const initialState = {
   error: null
 };
 
-// Out sourced reducer's logic
 const ingredientsUpdate = (state, action) => {
   let newState, updatedState;
 
   newState = objDeepCopy(state);
 
+  //TODO DEVELOPER: Make it cleaner.
   switch (action.type) {
     case actionTypes.ADD_INGREDIENT:
       newState.ingredients[action.payload.ingredientName] = newState.ingredients[action.payload.ingredientName] + 1;
@@ -32,35 +32,34 @@ const ingredientsUpdate = (state, action) => {
   return updatedState;
 };
 
-const setIngredients = (state, action) => {
+const setIngredients = (state, {payload:{data}}) => {
   let newState, updatedState;
 
   newState = objDeepCopy(state);
 
   updatedState = {
     ...newState,
-    ...action.payload.data,
+    ...data,
     loading: false
   };
 
   return updatedState;
 };
 
-const fetchIngredientsFailed = (state, action) => {
+const fetchIngredientsFailed = (state, {payload:{message}}) => {
   let newState, updatedState;
 
   newState = objDeepCopy(state);
 
   updatedState = {
     ...newState,
-    error: action.payload.message,
+    error: message,
     loading: false
   };
 
   return updatedState;
 };
 
-// Reducer
 const burgerBuilder = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.ADD_INGREDIENT: return ingredientsUpdate(state, action);

@@ -20,25 +20,16 @@ class BurgerBuilder extends Component {
     this.props.fetchIngredients();
   };
 
-  disableCheckoutBtnHandler = ingredients => {
-    let sum;
-    sum = Object.values(ingredients).reduce((a, b) => a + b, 0);
-    return sum > 0;
-  };
+  disableCheckoutBtnHandler = ingredients => (Object.values(ingredients).reduce((a, b) => a + b, 0) > 0);
 
-  disableIngBtnHandler = type => this.props.ings[type] <= 0;
+  disableIngBtnHandler = type => this.props.ingredients[type] <= 0;
 
-  purchasingHandler = () => {
-    this.setState({ purchasing: true });
-  };
+  purchasingHandler = () => this.setState({ purchasing: true });
 
-  purchaseCanceledHandler = () => {
-    this.setState({ purchasing: false });
-  };
+  purchaseCanceledHandler = () => this.setState({ purchasing: false });
 
-  purchaseContinueHandler = () => {
-    this.props.history.push('/checkout');
-  };
+  purchaseContinueHandler = () => this.props.history.push('/checkout');
+
 
   render() {
     let orderSummary, burger;
@@ -47,12 +38,12 @@ class BurgerBuilder extends Component {
     burger = this.props.error ? <h3>{this.props.error}</h3> : <Spinner />;
     orderSummary = null;
 
-    if (this.props.ings) {
+    if (this.props.ingredients) {
       burger = (
         <Fragment>
-          <Burger ingredients={this.props.ings} />
+          <Burger ingredients={this.props.ingredients} />
           <BuildControls
-            ingredients={this.props.ings}
+            ingredients={this.props.ingredients}
             totalPrice={this.props.totalPrice}
             addIngMethod={this.props.onIngredientAdded}
             removeIngMethod={this.props.onIngredientRemoved}
@@ -64,7 +55,7 @@ class BurgerBuilder extends Component {
       );
       orderSummary = <OrderSummary
         burgerPrice={this.props.totalPrice}
-        ingredients={this.props.ings}
+        ingredients={this.props.ingredients}
         purchaseContinue={this.purchaseContinueHandler}
         purchaseCanceled={this.purchaseCanceledHandler}
       />
@@ -85,12 +76,12 @@ class BurgerBuilder extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = ({burgerBuilder:{ingredients, totalPrice, loading, error}}) => {
   return {
-    ings: state.burgerBuilder.ingredients,
-    totalPrice: state.burgerBuilder.totalPrice,
-    loading: state.burgerBuilder.loading,
-    error: state.burgerBuilder.error
+    ingredients,
+    totalPrice,
+    loading,
+    error
   }
 };
 

@@ -19,10 +19,10 @@ class CheckOut extends Component {
     return(
       <div className={classes.CheckOut}>
         {
-          this.props.ings ?
+          this.props.ingredients ?
             <Fragment>
               <CheckOutSummary
-                ingredients={this.props.ings}
+                ingredients={this.props.ingredients}
                 checkOutCancelled={this.checkOutCancelled}
                 checkOutContinued={this.checkOutContinued}/>
               <Route
@@ -36,9 +36,9 @@ class CheckOut extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = ({burgerBuilder:{ingredients}}) => {
   return {
-    ings: state.ingredients
+    ingredients
   }
 };
 

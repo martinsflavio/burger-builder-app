@@ -33,8 +33,8 @@ class Orders extends Component {
     if (this.props.error) {
       ordersList = (<h3>{this.props.error}</h3>);
     } else {
-      if (this.props.orders) {
-        ordersList = (<ul>{this.orderListBuilder(this.props.orders)}</ul>);
+      if (this.props.ordersArray) {
+        ordersList = (<ul>{this.orderListBuilder(this.props.ordersArray)}</ul>);
       } else {
         ordersList = (<Spinner/>);
       }
@@ -48,16 +48,17 @@ class Orders extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = ({orders:{ordersArray, error}}) => {
   return {
-    orders: state.order.ordersArray,
-    error: state.order.error
+    ordersArray,
+    error
   }
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchOrders: () => dispatch(action.fetchOrders())
+    fetchOrders: () => dispatch(action.fetchOrders()),
+    fetchIngredients: () => dispatch(action.fetchIngredients())
   }
 };
 

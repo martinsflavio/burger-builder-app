@@ -17,25 +17,26 @@ const orderArrayBuilder = ordObj => {
   return ordArray;
 };
 
-const setOrders = (state, action) => {
+const setOrders = (state, {payload:{data}}) => {
+
   let newState, updatedState;
 
   newState = objDeepCopy(state);
   updatedState = {
     ...newState,
-    ordersArray: orderArrayBuilder(action.payload.data)
+    ordersArray: orderArrayBuilder(data)
   };
 
   return updatedState;
 };
 
-const fetchOrdersFailed = (state, action) => {
+const fetchOrdersFailed = (state, {payload:{message}}) => {
   let newState, updatedState;
 
   newState = objDeepCopy(state);
   updatedState = {
     ...newState,
-    error: action.payload.message
+    error: message
   };
 
   return updatedState;
@@ -48,6 +49,5 @@ export const order = (state = initialState, action) => {
     default: return state;
   }
 };
-
 
 export default order;
