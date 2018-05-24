@@ -9,34 +9,37 @@ import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import Spinner from '../../components/UI/Spinner/Spinner';
+import checkOutOk from "../../utils/burgerHasIngredients";
 
 
 class BurgerBuilder extends Component {
   state = {
-    purchasing: false
+    showOrderSummaryModal: false
   };
 
   componentDidMount () {
     this.props.fetchIngredients();
   };
 
-  disableCheckoutBtnHandler = ingredients => (Object.values(ingredients).reduce((a, b) => a + b, 0) > 0);
-
   disableIngBtnHandler = type => this.props.ingredients[type] <= 0;
 
-  purchasingHandler = () => this.setState({ purchasing: true });
+  showOrderSummaryModalHandler = () => this.setState({ showOrderSummaryModal: true });
 
-  purchaseCanceledHandler = () => this.setState({ purchasing: false });
+  purchaseCanceledHandler = () => this.setState({ showOrderSummaryModal: false });
 
   purchaseContinueHandler = () => this.props.history.push('/checkout');
 
 
   render() {
-    let orderSummary, burger;
+    let orderSummary, burger, burgerHasIngredients;
+
+    orderSummary = null;
+    burgerHasIngredients = checkOutOk(this.props.ingredients);
 
     // Local Errors Handler
-    burger = this.props.error ? <h3>{this.props.error}</h3> : <Spinner />;
-    orderSummary = null;
+    burger = this.props.error
+      ? <h3>{this.props.error}</h3>
+      : <Spinner />;
 
     if (this.props.ingredients) {
       burger = (
@@ -45,20 +48,22 @@ class BurgerBuilder extends Component {
           <BuildControls
             ingredients={this.props.ingredients}
             totalPrice={this.props.totalPrice}
+            disableCheckoutBtn={burgerHasIngredients}
             addIngMethod={this.props.onIngredientAdded}
             removeIngMethod={this.props.onIngredientRemoved}
             disableIngBtnHandler={this.disableIngBtnHandler}
-            disableCheckoutBtnHandler={this.disableCheckoutBtnHandler}
-            purchasingHandler={this.purchasingHandler}
+            showOrderSummaryModalHandler={this.showOrderSummaryModalHandler}
           />
         </Fragment>
       );
-      orderSummary = <OrderSummary
-        burgerPrice={this.props.totalPrice}
-        ingredients={this.props.ingredients}
-        purchaseContinue={this.purchaseContinueHandler}
-        purchaseCanceled={this.purchaseCanceledHandler}
-      />
+      orderSummary = (
+        <OrderSummary
+          burgerPrice={this.props.totalPrice}
+          ingredients={this.props.ingredients}
+          purchaseContinue={this.purchaseContinueHandler}
+          purchaseCanceled={this.purchaseCanceledHandler}
+        />
+      );
     }
 
     if (this.props.loading) { orderSummary = <Spinner />; }
@@ -66,7 +71,7 @@ class BurgerBuilder extends Component {
     return (
       <Fragment>
         <Modal
-          show={this.state.purchasing}
+          show={this.state.showOrderSummaryModal}
           clickedOutSide={this.purchaseCanceledHandler}>
           {orderSummary}
         </Modal>
@@ -76,7 +81,10 @@ class BurgerBuilder extends Component {
   }
 }
 
-const mapStateToProps = ({burgerBuilder:{ingredients, totalPrice, loading, error}}) => {
+// Destructuring state
+const mapStateToProps = ({burgerBuilder:{
+  ingredients, totalPrice, loading, error
+}}) => {
   return {
     ingredients,
     totalPrice,

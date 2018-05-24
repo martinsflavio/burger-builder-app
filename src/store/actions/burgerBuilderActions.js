@@ -33,6 +33,7 @@ export const fetchIngredientsFailed = error => {
   }
 };
 
+// Fetch data from API "Async Code"
 export const fetchIngredients = () => {
   return async dispatch => {
     let initState;
@@ -46,5 +47,3 @@ export const fetchIngredients = () => {
     }
   }
 };
-
-

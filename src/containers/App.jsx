@@ -7,6 +7,7 @@ import CheckOut from "./CheckOut/CheckOut";
 import Orders from "./Orders/Orders";
 
 class App extends Component {
+
   render() {
     return (
       <Layout>

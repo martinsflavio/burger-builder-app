@@ -6,6 +6,7 @@ export const initialState = {
   ingredientsPrices: null,
   totalPrice: null,
   loading: true,
+  checkOutOk: false,
   error: null
 };
 

@@ -48,6 +48,7 @@ class Orders extends Component {
   }
 }
 
+// Destructuring state
 const mapStateToProps = ({orders:{ordersArray, error}}) => {
   return {
     ordersArray,
