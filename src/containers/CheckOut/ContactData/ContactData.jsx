@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import * as action from '../../../store/actions/index';
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
+import objDeepCopy from "../../../utils/objDeepCopy";
 import axios from '../../../utils/axiosAPI';
 import classes from './contactData.css';
-import Spinner from '../../../components/UI/Spinner/Spinner';
-import objDeepCopyUtil from "../../../utils/objDeepCopy";
+
 import Form from "../../../components/UI/Form/Form";
 
 class ContactData extends Component {
@@ -59,74 +60,83 @@ class ContactData extends Component {
             {value: 'standard', displayValue: 'Standard'}
           ]
         },
-        value: ''
+        value: 'Standard'
       }
-    },
-    loading: false,
-    error: null
+    }
   };
 
+  componentDidUpdate () {
+    if (this.props.postSucceedId) {
+      this.props.history.push('/confirmation');
+    }
+  }
+
   submitOrderHandler = async (e) => {
-    let orderRequest, orderResponse, orderForm;
+    let orderRequest, orderForm;
 
     e.preventDefault();
 
     // Initializing variables
-    orderForm = objDeepCopyUtil(this.state.orderForm);
+    orderForm = objDeepCopy(this.state.orderForm);
+    // Injecting order data into orderRequest obj
     orderRequest = {
       costumer: {},
       ingredients: this.props.ingredients,
       totalPrice: this.props.totalPrice
     };
 
-    //Transforming ingredients Obj
+    //Injecting costumer data from Form to orderRequest Obj
     for (let costumerData in orderForm) {
       if (orderForm.hasOwnProperty(costumerData)) {
         orderRequest.costumer[costumerData] = orderForm[costumerData].value;
       }
     }
 
-    this.setState({loading: true});
-    orderResponse = await axios.post('/ordersArray.json', orderRequest);
-
-    //Local Error Handler
-    if (orderResponse instanceof  Error) {
-      this.setState({error: 'Server connection Fail!', loading: false});
-    } else {
-      this.setState({loading: false});
-      this.props.history.push('/');
-    }
+    this.props.postOrder(orderRequest);
   };
 
-  changeInputHandler = orderForm => {
-    this.setState({orderForm: objDeepCopyUtil(orderForm)})
-  };
+  changeInputHandler = orderForm => this.setState({orderForm: objDeepCopy(orderForm)});
 
   render () {
     return (
       <div className={classes.ContactData}>
-        {
-          this.state.loading ?
-            <Spinner />
-              :
-            <Form
-              orderForm={objDeepCopyUtil(this.state.orderForm)}
-              changeInput={(prevState) => this.changeInputHandler(prevState)}
-              submitOrderHandler={this.submitOrderHandler}
-            />
-        }
+        <Form
+          orderForm={objDeepCopy(this.state.orderForm)}
+          changeInput={(prevState) => this.changeInputHandler(prevState)}
+          submitOrderHandler={this.submitOrderHandler}
+        />
       </div>
     );
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (
+  {
+   burgerBuilder:{
+     ingredients,
+     totalPrice
+   },
+   orders:{
+     loading,
+     postSucceedId,
+     error
+   }
+  }) => {
   return {
-    ingredients: state.ingredients,
-    totalPrice: state.totalPrice
+    ingredients,
+    totalPrice,
+    loading,
+    postSucceedId,
+    error
   }
 };
 
-export default connect(mapStateToProps)(
+const mapDispatchToProps = dispatch => {
+  return {
+    postOrder: (order) => dispatch(action.postOrder(order)),
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(
   withErrorHandler(withRouter(ContactData), axios)
 );

@@ -10,7 +10,7 @@ import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
 
 class Orders extends Component {
 
-  async componentDidMount () {
+  componentWillMount () {
     this.props.fetchOrders();
   };
 
@@ -21,7 +21,6 @@ class Orders extends Component {
           <li key={order.orderId}>
             <Order ingredients={order.ingredients} totalPrice={order.totalPrice}/>
           </li>
-
         );
       });
     }

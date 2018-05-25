@@ -37,10 +37,10 @@ module.exports = function(proxy, allowedHost) {
     // By default WebpackDevServer serves physical files from current directory
     // in addition to all the virtual build products that it serves from memory.
     // This is confusing because those files won’t automatically be available in
-    // production build folder unless we objDeepCopyUtil them. However, copying the whole
+    // production build folder unless we objDeepCopy them. However, copying the whole
     // project directory is dangerous because we may expose sensitive files.
     // Instead, we establish a convention that only files in `public` directory
-    // get served. Our build script will objDeepCopyUtil `public` into the `build` folder.
+    // get served. Our build script will objDeepCopy `public` into the `build` folder.
     // In `index.html`, you can get URL of `public` folder with %PUBLIC_URL%:
     // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
     // In JavaScript code, you can access it with `process.env.PUBLIC_URL`.
