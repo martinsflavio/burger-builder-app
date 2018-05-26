@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as action from '../../../store/actions/index';
@@ -14,19 +14,32 @@ class CheckoutConfirmation extends Component {
   componentDidMount () {
     this.props.fetchOrderById(this.props.postSucceedId);
   }
-  //TODO DEVELOPER: BUILD THIS VIEW
-  render () {
-    let checkOutConfirmation;
 
-    if (this.props.postSucceedId) {
-      checkOutConfirmation = (<h3> Your Order </h3>);
-    } else {
+  redirectHandler = path => this.props.history.push(path);
+
+  render () {
+    let checkOutConfirmation = null;
+
+    if (!this.props.postSucceedId) {
       checkOutConfirmation = (<Redirect to="/"/>);
     }
 
     return(
       <div className={classes.CheckOutConfirmation}>
-        { checkOutConfirmation }
+        {
+          this.props.confirmedOrder ?
+            <Fragment>
+              <h3>Order Confirmation</h3>
+                <Burger ingredients={this.props.confirmedOrder.ingredients}/>
+              <div>
+                <h3>TotalPrice:<span> $ {this.props.confirmedOrder.totalPrice.toFixed(2)}</span></h3>
+                <h4>Order protocol: <span>{this.props.postSucceedId}</span></h4>
+                <Button btnType="Success" clicked={() => this.redirectHandler("/orders")}>See my Orders</Button>
+                <Button btnType="Success" clicked={() => this.redirectHandler("/")}>Build another Burger</Button>
+              </div>
+            </Fragment> :
+            checkOutConfirmation
+        }
       </div>
     )
   };
