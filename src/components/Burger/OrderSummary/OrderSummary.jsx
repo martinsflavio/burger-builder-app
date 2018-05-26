@@ -45,6 +45,6 @@ OrderSummary.propTypes ={
   ingredients: PropTypes.objectOf(PropTypes.number),
   purchaseContinue: PropTypes.func.isRequired,
   purchaseCanceled: PropTypes.func.isRequired
-}
+};
 
 export default OrderSummary;

@@ -96,7 +96,7 @@ class ContactData extends Component {
   };
 
   changeInputHandler = orderForm => this.setState({orderForm: objDeepCopy(orderForm)});
-
+  //TODO DEVELOPER: Add Validations to the form
   render () {
     return (
       <div className={classes.ContactData}>
@@ -110,18 +110,8 @@ class ContactData extends Component {
   }
 }
 
-const mapStateToProps = (
-  {
-   burgerBuilder:{
-     ingredients,
-     totalPrice
-   },
-   orders:{
-     loading,
-     postSucceedId,
-     error
-   }
-  }) => {
+const mapStateToProps = ({burgerBuilder: {ingredients, totalPrice},
+                          orders: {loading, postSucceedId, error}}) => {
   return {
     ingredients,
     totalPrice,

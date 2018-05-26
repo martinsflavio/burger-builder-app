@@ -82,9 +82,7 @@ class BurgerBuilder extends Component {
 }
 
 // Destructuring state
-const mapStateToProps = ({burgerBuilder:{
-  ingredients, totalPrice, loading, error
-}}) => {
+const mapStateToProps = ({burgerBuilder:{ingredients, totalPrice, loading, error}}) => {
   return {
     ingredients,
     totalPrice,

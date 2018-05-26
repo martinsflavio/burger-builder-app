@@ -20,9 +20,7 @@ class CheckoutConfirmation extends Component {
   render () {
     let checkOutConfirmation = null;
 
-    if (!this.props.postSucceedId) {
-      checkOutConfirmation = (<Redirect to="/"/>);
-    }
+    if (!this.props.postSucceedId) {checkOutConfirmation = (<Redirect to="/"/>)}
 
     return(
       <div className={classes.CheckOutConfirmation}>
