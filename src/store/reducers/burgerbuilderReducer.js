@@ -5,7 +5,6 @@ export const initialState = {
   ingredients: null,
   ingredientsPrices: null,
   totalPrice: null,
-  loading: true,
   checkOutOk: false,
   error: null
 };
@@ -40,8 +39,7 @@ const setIngredients = (state, {payload:{data}}) => {
 
   updatedState = {
     ...newState,
-    ...data,
-    loading: false
+    ...data
   };
 
   return updatedState;
@@ -54,8 +52,7 @@ const fetchIngredientsFailed = (state, {payload:{message}}) => {
 
   updatedState = {
     ...newState,
-    error: message,
-    loading: false
+    error: message
   };
 
   return updatedState;

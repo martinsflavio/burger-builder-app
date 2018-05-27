@@ -71,7 +71,7 @@ class ContactData extends Component {
     }
   }
 
-  submitOrderHandler = async (e) => {
+  submitOrderHandler = (e) => {
     let orderRequest, orderForm;
 
     e.preventDefault();
@@ -96,6 +96,7 @@ class ContactData extends Component {
   };
 
   changeInputHandler = orderForm => this.setState({orderForm: objDeepCopy(orderForm)});
+
   //TODO DEVELOPER: Add Validations to the form
   render () {
     return (
@@ -110,12 +111,11 @@ class ContactData extends Component {
   }
 }
 
-const mapStateToProps = ({burgerBuilder: {ingredients, totalPrice},
-                          orders: {loading, postSucceedId, error}}) => {
+const mapStateToProps = ({burgerBuilder:  {ingredients, totalPrice},
+                          orders:         {postSucceedId, error}}) => {
   return {
     ingredients,
     totalPrice,
-    loading,
     postSucceedId,
     error
   }

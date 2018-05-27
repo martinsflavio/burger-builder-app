@@ -14,6 +14,7 @@ class Orders extends Component {
     this.props.fetchOrders();
   };
 
+
   orderListBuilder = ordArray => {
     if (Array.isArray(ordArray)) {
       return ordArray.map(order => {
@@ -57,8 +58,7 @@ const mapStateToProps = ({orders:{ordersArray, error}}) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchOrders: () => dispatch(action.fetchOrders()),
-    fetchIngredients: () => dispatch(action.fetchIngredients())
+    fetchOrders: () => dispatch(action.fetchOrders())
   }
 };
 

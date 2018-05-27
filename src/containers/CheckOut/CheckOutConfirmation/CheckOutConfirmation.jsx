@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as action from '../../../store/actions/index';
 import axios from '../../../utils/axiosAPI';
@@ -8,11 +7,16 @@ import classes from './checkOutConfirmation.css';
 
 import HasOrder from "./HasOrder/HasOrder";
 import HasError from "./HasError/HasError";
+import Spinner from "../../../components/UI/Spinner/Spinner";
 
 class CheckoutConfirmation extends Component {
 
   componentDidMount () {
-    this.props.fetchOrderById(this.props.postSucceedId);
+    if (this.props.postSucceedId) {
+      this.props.fetchOrderById(this.props.postSucceedId);
+    } else {
+      this.props.history.push("/");
+    }
   }
 
   redirectHandler = path => this.props.history.push(path);
@@ -34,13 +38,17 @@ class CheckoutConfirmation extends Component {
 
     return(
       <div className={classes.CheckOutConfirmation}>
-        { checkOutState }
+        {
+          checkOutState ?
+            checkOutState :
+            <Spinner />
+        }
       </div>
     )
   };
 }
 
-const mapStateToProps = ({orders:{postSucceedId, confirmedOrder, error}}) => {
+const mapStateToProps = ({orders: {postSucceedId, confirmedOrder, error}}) => {
   return {
     postSucceedId,
     confirmedOrder,

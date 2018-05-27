@@ -17,7 +17,7 @@ class BurgerBuilder extends Component {
     showOrderSummaryModal: false
   };
 
-  componentDidMount () {
+  componentWillMount () {
     this.props.fetchIngredients();
   };
 
@@ -36,10 +36,9 @@ class BurgerBuilder extends Component {
     orderSummary = null;
     burgerHasIngredients = checkOutOk(this.props.ingredients);
 
-    // Local Errors Handler
-    burger = this.props.error
-      ? <h3>{this.props.error}</h3>
-      : <Spinner />;
+    if (this.props.loading) {
+      burger = (<Spinner />);
+    }
 
     if (this.props.ingredients) {
       burger = (
@@ -66,7 +65,9 @@ class BurgerBuilder extends Component {
       );
     }
 
-    if (this.props.loading) { orderSummary = <Spinner />; }
+    if (this.props.error) {
+      burger = (<h3>{this.props.error}</h3>);
+    }
 
     return (
       <Fragment>
@@ -82,7 +83,8 @@ class BurgerBuilder extends Component {
 }
 
 // Destructuring state
-const mapStateToProps = ({burgerBuilder:{ingredients, totalPrice, loading, error}}) => {
+const mapStateToProps = ({burgerBuilder:  {ingredients, totalPrice, error},
+                          apiConnection:  {loading}}) => {
   return {
     ingredients,
     totalPrice,

@@ -9,3 +9,5 @@ export {
   fetchOrderById,
   postOrder
 } from './orderActions';
+
+export { apiConnectionStatus } from './apiConnectionActions';

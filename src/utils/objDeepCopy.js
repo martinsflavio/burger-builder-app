@@ -1,21 +1,21 @@
 const objDeepCopy = obj => {
-  let output, v, key;
+  let outputObj, value, key;
 
   if (obj === null || obj === undefined || typeof obj !== "object") {
-    output = obj;
+    outputObj = obj;
   } else {
-    output = Array.isArray(obj) ? [] : {};
+    outputObj = Array.isArray(obj) ? [] : {};
 
     for (key in obj) {
       if (obj.hasOwnProperty(key)) {
-        v = obj[key];
-        output[key] = (typeof v === "object") ? objDeepCopy(v) : v;
+        value = obj[key];
+        outputObj[key] = (typeof value === "object") ? objDeepCopy(value) : value;
       }
     }
 
   }
 
-  return output;
+  return outputObj;
 };
 
 export default objDeepCopy;

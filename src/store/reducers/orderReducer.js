@@ -3,7 +3,6 @@ import objDeepCopy from "../../utils/objDeepCopy";
 
 export const initialState = {
   ordersArray: null,
-  loading: false,
   postSucceedId: null,
   confirmedOrder: null,
   error: null
@@ -30,7 +29,6 @@ const setOrders = (state, {payload:{data}}) => {
     ...newState,
     ordersArray: orderArrayBuilder(data)
   };
-
   return updatedState;
 };
 
@@ -70,19 +68,6 @@ const postOrderFailed = (state, {payload:{message}}) => {
   return updatedState;
 };
 
-const loadingStatus = (state, {payload}) => {
-  let newState, updatedState;
-
-  newState = objDeepCopy(state);
-
-  updatedState = {
-    ...newState,
-    loading: payload
-  };
-
-  return updatedState;
-};
-
 // Single Order related func's
 const setOrderById = (state, {payload:{data}}) => {
   let newState, updatedState;
@@ -114,7 +99,6 @@ export const order = (state = initialState, action) => {
     case actionTypes.FETCH_ORDERS_FAILED: return fetchOrdersFailed(state, action);
     case actionTypes.POST_ORDER_SUCCEED: return postOrderSucceed(state, action);
     case actionTypes.POST_ORDER_FAILED: return postOrderFailed(state, action);
-    case actionTypes.LOADING_STATUS: return loadingStatus(state, action);
     case actionTypes.SET_ORDER_BY_ID: return setOrderById(state, action);
     case actionTypes.FETCH_ORDER_BY_ID_FAILED: return setOrderByIdFailed(state, action);
 
