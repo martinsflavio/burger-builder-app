@@ -1,37 +1,13 @@
 import * as actionTypes from './actionTypes';
 import axios from "../../utils/axiosAPI";
 
-export const addIngredient = name => {
-  return {
-    type: actionTypes.ADD_INGREDIENT,
-    payload: {
-      ingredientName: name
-    }
-  }
-};
+export const addIngredient = name => ({type: actionTypes.ADD_INGREDIENT, payload: {ingredientName: name}});
 
-export const removeIngredient = name => {
-  return {
-    type: actionTypes.REMOVE_INGREDIENT,
-    payload: {
-      ingredientName: name
-    }
-  }
-};
+export const removeIngredient = name => ({type: actionTypes.REMOVE_INGREDIENT, payload: {ingredientName: name}});
 
-export const setIngredients = data => {
-  return {
-    type: actionTypes.SET_INGREDIENTS,
-    payload: data
-  }
-};
+export const setIngredients = data => ({type: actionTypes.SET_INGREDIENTS, payload: data});
 
-export const fetchIngredientsFailed = error => {
-  return {
-    type: actionTypes.FETCH_INGREDIENTS_FAILED,
-    payload: error
-  }
-};
+export const fetchIngredientsFailed = error => ({type: actionTypes.FETCH_INGREDIENTS_FAILED, payload: error});
 
 // Fetch data from API "Async Code"
 export const fetchIngredients = () => {

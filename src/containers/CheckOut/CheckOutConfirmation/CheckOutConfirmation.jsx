@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as action from '../../../store/actions/index';
@@ -6,8 +6,8 @@ import axios from '../../../utils/axiosAPI';
 import withErrorHandler from "../../../hoc/withErrorHandler/withErrorHandler";
 import classes from './checkOutConfirmation.css';
 
-import Burger from "../../../components/Burger/Burger";
-import Button from "../../../components/UI/Button/Button";
+import HasOrder from "./HasOrder/HasOrder";
+import HasError from "./HasError/HasError";
 
 class CheckoutConfirmation extends Component {
 
@@ -18,35 +18,33 @@ class CheckoutConfirmation extends Component {
   redirectHandler = path => this.props.history.push(path);
 
   render () {
-    let checkOutConfirmation = null;
+    let checkOutState = null;
 
-    if (!this.props.postSucceedId) {checkOutConfirmation = (<Redirect to="/"/>)}
+    if (this.props.confirmedOrder || this.props.error) {
+      if (this.props.confirmedOrder) {
+        checkOutState = (<HasOrder
+                            confirmedOrder={this.props.confirmedOrder}
+                            id={this.props.postSucceedId}
+                            redirectTo={this.redirectHandler}/>);
+      }
+      if (this.props.error){
+        checkOutState = (<HasError error={this.props.error}/>);
+      }
+    }
 
     return(
       <div className={classes.CheckOutConfirmation}>
-        {
-          this.props.confirmedOrder ?
-            <Fragment>
-              <h3>Order Confirmation</h3>
-                <Burger ingredients={this.props.confirmedOrder.ingredients}/>
-              <div>
-                <h3>TotalPrice:<span> $ {this.props.confirmedOrder.totalPrice.toFixed(2)}</span></h3>
-                <h4>Order protocol: <span>{this.props.postSucceedId}</span></h4>
-                <Button btnType="Success" clicked={() => this.redirectHandler("/orders")}>See my Orders</Button>
-                <Button btnType="Success" clicked={() => this.redirectHandler("/")}>Build another Burger</Button>
-              </div>
-            </Fragment> :
-            checkOutConfirmation
-        }
+        { checkOutState }
       </div>
     )
   };
 }
 
-const mapStateToProps = ({orders:{postSucceedId, confirmedOrder}}) => {
+const mapStateToProps = ({orders:{postSucceedId, confirmedOrder, error}}) => {
   return {
     postSucceedId,
-    confirmedOrder
+    confirmedOrder,
+    error
   }
 };
 
