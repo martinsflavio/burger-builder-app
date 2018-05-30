@@ -11,14 +11,19 @@ import Form from "../../../components/UI/Form/Form";
 
 class ContactData extends Component {
   state = {
-    orderForm: {
+    controls: {
       name: {
         elementType: 'input',
         elementConfig: {
           type: 'text',
           placeholder: 'Your Name'
         },
-        value: ''
+        value: '',
+        validation: {
+          required: true
+        },
+        valid: false,
+        touched: false
       },
       street: {
         elementType: 'input',
@@ -26,7 +31,12 @@ class ContactData extends Component {
           type: 'text',
           placeholder: 'Street'
         },
-        value: ''
+        value: '',
+        validation: {
+          required: true
+        },
+        valid: false,
+        touched: false
       },
       zipCode: {
         elementType: 'input',
@@ -34,7 +44,15 @@ class ContactData extends Component {
           type: 'text',
           placeholder: 'ZIP Code'
         },
-        value: ''
+        value: '',
+        validation: {
+          required: true,
+          minLength: 5,
+          maxLength: 5,
+          isNumeric: true
+        },
+        valid: false,
+        touched: false
       },
       country: {
         elementType: 'input',
@@ -42,27 +60,41 @@ class ContactData extends Component {
           type: 'text',
           placeholder: 'Country'
         },
-        value: ''
+        value: '',
+        validation: {
+          required: true
+        },
+        valid: false,
+        touched: false
       },
       email: {
         elementType: 'input',
         elementConfig: {
           type: 'email',
-          placeholder: 'example@something.com'
+          placeholder: 'Your E-Mail'
         },
-        value: ''
+        value: '',
+        validation: {
+          required: true,
+          isEmail: true
+        },
+        valid: false,
+        touched: false
       },
       deliveryMethod: {
         elementType: 'select',
         elementConfig: {
           options: [
-            {value: 'express', displayValue: 'Express'},
-            {value: 'standard', displayValue: 'Standard'}
+            {value: 'fastest', displayValue: 'Fastest'},
+            {value: 'cheapest', displayValue: 'Cheapest'}
           ]
         },
-        value: 'Standard'
+        value: 'fastest',
+        validation: {},
+        valid: true
       }
-    }
+    },
+    formIsValid: false
   };
 
   componentDidUpdate () {
@@ -71,40 +103,50 @@ class ContactData extends Component {
     }
   }
 
-  submitOrderHandler = (e) => {
-    let orderRequest, orderForm;
+  submitHandler = e => {
+    let updatedControls, controls;
 
     e.preventDefault();
 
-    // Initializing variables
-    orderForm = objDeepCopy(this.state.orderForm);
-    // Injecting order data into orderRequest obj
-    orderRequest = {
+    controls = objDeepCopy(this.state.controls);
+
+    updatedControls = {
       costumer: {},
       ingredients: this.props.ingredients,
       totalPrice: this.props.totalPrice
     };
 
-    //Injecting costumer data from Form to orderRequest Obj
-    for (let costumerData in orderForm) {
-      if (orderForm.hasOwnProperty(costumerData)) {
-        orderRequest.costumer[costumerData] = orderForm[costumerData].value;
+    for (let costumerData in controls) {
+      if (controls.hasOwnProperty(costumerData)) {
+        updatedControls.costumer[costumerData] = controls[costumerData].value;
       }
     }
 
-    this.props.postOrder(orderRequest);
+    this.props.postOrder(updatedControls);
   };
 
-  changeInputHandler = orderForm => this.setState({orderForm: objDeepCopy(orderForm)});
+  updateControlsValueHandler = (newState) => {
+    let state, updatedState;
+
+    state = objDeepCopy(this.state);
+    updatedState = {
+      ...state,
+      ...newState
+    };
+
+    this.setState(updatedState);
+  };
 
   //TODO DEVELOPER: Add Validations to the form
   render () {
+
     return (
       <div className={classes.ContactData}>
         <Form
-          orderForm={objDeepCopy(this.state.orderForm)}
-          changeInput={(prevState) => this.changeInputHandler(prevState)}
-          submitOrderHandler={this.submitOrderHandler}
+          controls={objDeepCopy(this.state.controls)}
+          updateControlsValue={(prevState) => this.updateControlsValueHandler(prevState)}
+          submitOrderHandler={this.submitHandler}
+          formIsValid={this.state.formIsValid}
         />
       </div>
     );
