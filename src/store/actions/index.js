@@ -11,3 +11,5 @@ export {
 } from './orderActions';
 
 export { apiConnectionStatus } from './apiConnectionActions';
+
+export { authStart } from './auth';

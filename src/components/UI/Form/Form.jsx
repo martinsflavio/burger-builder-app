@@ -21,7 +21,7 @@ class Form extends Component {
     }
   };
 
-  checkValidity(value, rules) {
+  checkValidity = (value, rules) => {
     let isValid = true;
     if (!rules) {
       return true;
@@ -87,7 +87,7 @@ class Form extends Component {
 
     return (
       <div className={classes.Form}>
-        <h4>Enter your Contact Data</h4>
+        <h4>{this.props.children}</h4>
         <form onSubmit={this.props.submitHandler}>
           {
             inputsArray.map(input => (

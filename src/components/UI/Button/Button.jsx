@@ -2,19 +2,19 @@ import React from 'react';
 import classes from './button.css';
 
 const Button = (props) => {
-  let btnStatus = false, style = {};
+  let btnStatus = false, btnClasses;
+
+  btnClasses = [classes.Button, classes[props.btnType]];
 
   if (props.disable) {
     btnStatus = true;
-    style = {
-      "color": "gray"
-    };
+    btnClasses.push(classes.Disable)
   }
 
   return (
-    <button style={style}
+    <button
       disabled={btnStatus}
-      className={[classes.Button, classes[props.btnType]].join(' ')}
+      className={btnClasses.join(' ')}
       onClick={props.clicked}>
       {props.children}
     </button>

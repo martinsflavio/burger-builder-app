@@ -137,17 +137,17 @@ class ContactData extends Component {
     this.setState(updatedState);
   };
 
-  //TODO DEVELOPER: Add Validations to the form
   render () {
-
     return (
       <div className={classes.ContactData}>
         <Form
           controls={objDeepCopy(this.state.controls)}
           updateControlsValue={(prevState) => this.updateControlsValueHandler(prevState)}
-          submitOrderHandler={this.submitHandler}
+          submitHandler={this.submitHandler}
           formIsValid={this.state.formIsValid}
-        />
+        >
+          Enter Your Contact Information
+        </Form>
       </div>
     );
   }
