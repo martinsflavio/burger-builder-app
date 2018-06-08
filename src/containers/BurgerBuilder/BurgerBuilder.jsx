@@ -17,7 +17,7 @@ class BurgerBuilder extends Component {
     showOrderSummaryModal: false
   };
 
-  componentWillMount () {
+  componentDidMount () {
     if(!this.props.ingredients) {
       this.props.fetchIngredients();
     }

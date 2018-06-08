@@ -10,8 +10,13 @@ import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
 
 class Orders extends Component {
 
-  componentWillMount () {
+  componentDidMount () {
     this.props.fetchOrders();
+  };
+
+  shouldComponentUpdate (nextProps) {
+    return  nextProps.ordersArray !== this.props.ordersArray ||
+            nextProps.loading !== this.props.loading;
   };
 
 
