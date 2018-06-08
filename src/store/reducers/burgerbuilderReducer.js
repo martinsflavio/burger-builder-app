@@ -39,7 +39,8 @@ const setIngredients = (state, {payload:{data}}) => {
 
   updatedState = {
     ...newState,
-    ...data
+    ...data,
+    error: null
   };
 
   return updatedState;

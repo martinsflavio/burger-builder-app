@@ -18,7 +18,9 @@ class BurgerBuilder extends Component {
   };
 
   componentWillMount () {
-    this.props.fetchIngredients();
+    if(!this.props.ingredients) {
+      this.props.fetchIngredients();
+    }
   };
 
   disableIngBtnHandler = type => this.props.ingredients[type] <= 0;

@@ -1,19 +1,6 @@
 import * as actionTypes from './actionTypes';
 import axios from "../../utils/axiosAPI";
 
-//Fetch all The orders from API => "Async Code"
-export const fetchOrders = () => {
-  return  async dispatch => {
-    const ordersRes = await axios.get('/orders.json');
-
-    if (ordersRes instanceof Error) {
-      dispatch(fetchOrdersFailed(ordersRes));
-    } else {
-      dispatch(setOrders(ordersRes));
-    }
-  }
-};
-
 export const setOrders = data => ({type: actionTypes.SET_ORDERS, payload: data});
 
 export const fetchOrdersFailed = error => ({type: actionTypes.FETCH_ORDERS_FAILED, payload: error});
@@ -28,13 +15,29 @@ export const setOrderById = data => ({type: actionTypes.SET_ORDER_BY_ID, payload
 
 export const fetchOrderByIdFailed = error => ({type: actionTypes.FETCH_ORDER_BY_ID_FAILED, payload: error});
 
+//Fetch all The orders from API => "Async Code"
+export const fetchOrders = () => {
+  return  async dispatch => {
+
+    dispatch(apiConnectionStatus(true));
+    const ordersRes = await axios.get('/orders.json');
+
+    if (ordersRes instanceof Error) {
+      dispatch(fetchOrdersFailed(ordersRes));
+    } else {
+      dispatch(setOrders(ordersRes));
+    }
+
+    dispatch(apiConnectionStatus(false));
+  }
+};
+
 //Fetch a single order from API by the ID => "Async Code"
 export const fetchOrderById = id => {
   return async dispatch => {
     const queryParam = `/orders/${id}.json`;
 
     dispatch(apiConnectionStatus(true));
-
     const ordersRes = await axios.get(queryParam);
 
     if (ordersRes instanceof Error) {

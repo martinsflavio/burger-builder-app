@@ -28,31 +28,33 @@ class Orders extends Component {
   };
 
   render () {
-    let ordersList;
+    let ordersList, errorMessage = null;
 
-    if (this.props.error) {
-      ordersList = (<h3>{this.props.error}</h3>);
-    } else {
+    if (this.props.loading) {
+      ordersList = (<Spinner/>);
+      } else {
       if (this.props.ordersArray) {
         ordersList = (<ul>{this.orderListBuilder(this.props.ordersArray)}</ul>);
       } else {
-        ordersList = (<Spinner/>);
+        errorMessage = (<h3>{this.props.error}</h3>);
       }
     }
 
     return (
       <div className={classes.Orders}>
-        {ordersList}
+        { ordersList }
+        { errorMessage }
       </div>
     );
   }
 }
 
 // Destructuring state
-const mapStateToProps = ({orders:{ordersArray, error}}) => {
+const mapStateToProps = ({apiConnection:{loading}, orders: {ordersArray, error}}) => {
   return {
     ordersArray,
-    error
+    error,
+    loading
   }
 };
 

@@ -27,6 +27,7 @@ const setOrders = (state, {payload:{data}}) => {
   newState = objDeepCopy(state);
   updatedState = {
     ...newState,
+    error: null,
     ordersArray: orderArrayBuilder(data)
   };
   return updatedState;
@@ -50,6 +51,7 @@ const postOrderSucceed = (state, {payload:{data}}) => {
   newState = objDeepCopy(state);
   updatedState = {
     ...newState,
+    error: null,
     postSucceedId: data.name
   };
 
@@ -75,6 +77,7 @@ const setOrderById = (state, {payload:{data}}) => {
   newState = objDeepCopy(state);
   updatedState = {
     ...newState,
+    error: null,
     confirmedOrder: data
   };
 
