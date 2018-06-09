@@ -12,4 +12,7 @@ export {
 
 export { apiConnectionStatus } from './apiConnectionActions';
 
-export { authStart } from './authActions';
+export {
+  authStart,
+  authLogout
+} from './authActions';

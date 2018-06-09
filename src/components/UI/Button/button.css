@@ -8,14 +8,15 @@
   margin: 10px;
   font-weight: bold;
   border-radius: 25px;
-}
-
-.Success {
   color: #ffffff;
 }
 
+.Success {
+  background-color: #0f971d;
+}
+
 .Danger {
-  color: #941b1a;
+  background-color: #941b1a;
 }
 
 .Button:disabled {

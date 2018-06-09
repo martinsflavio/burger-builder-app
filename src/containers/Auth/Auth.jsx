@@ -5,6 +5,7 @@ import objDeepCopy from "../../utils/objDeepCopy";
 import * as classes from './auth.css';
 
 import Form from "../../components/UI/Form/Form";
+import Spinner from  "../../components/UI/Spinner/Spinner";
 
 class Auth extends Component {
   state = {
@@ -72,6 +73,7 @@ class Auth extends Component {
 
   render () {
     // Temporary feedback from the auth functionality
+    console.log('[auth component]');
     let user = null, error = null;
     if (this.props.user) {
       user = <p>User was created or is Valid.</p>
@@ -80,11 +82,12 @@ class Auth extends Component {
       error = this.props.error.data.error.message;
     }
     ////////////////////////////////////////////////////////
-    return (
-      <div className={classes.Auth}>
-       <div>
-         <h2>{ this.state.createNewAccount ? "Sign Up" : "Log In" }</h2>
-       </div>
+
+    let authElements = (
+      <div>
+        <div>
+          <h2>{ this.state.createNewAccount ? "Sign Up" : "Log In" }</h2>
+        </div>
         <div>
           <Form
             controls={objDeepCopy(this.state.controls)}
@@ -109,13 +112,25 @@ class Auth extends Component {
         { error }
       </div>
     );
+
+    if (this.props.loading) {
+      authElements = (<Spinner/>);
+    }
+
+    return (
+      <div className={classes.Auth}>
+        { authElements }
+      </div>
+    );
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = ({auth:           {user, error},
+                         apiConnection:   {loading}}) => {
   return {
-    user: state.auth.user,
-    error: state.auth.error
+    user,
+    error,
+    loading
   }
 };
 

@@ -1,11 +1,10 @@
 import * as actionTypes from './actionTypes';
 import axios from "../../utils/axiosAPI";
+import { apiConnectionStatus } from './apiConnectionActions';
 
 export const setOrders = data => ({type: actionTypes.SET_ORDERS, payload: data});
 
 export const fetchOrdersFailed = error => ({type: actionTypes.FETCH_ORDERS_FAILED, payload: error});
-
-export const apiConnectionStatus = status => ({type: actionTypes.API_CONNECTION_STATUS, payload: status});
 
 export const postOrderSucceed = data => ({type: actionTypes.POST_ORDER_SUCCEED, payload: data});
 
@@ -20,15 +19,14 @@ export const fetchOrders = () => {
   return  async dispatch => {
 
     dispatch(apiConnectionStatus(true));
-    const ordersRes = await axios.get('/orders.json');
-
-    if (ordersRes instanceof Error) {
-      dispatch(fetchOrdersFailed(ordersRes));
-    } else {
-      dispatch(setOrders(ordersRes));
-    }
-
-    dispatch(apiConnectionStatus(false));
+    axios.get('/orders.json')
+      .then(res => {
+        dispatch(setOrders(res));
+        dispatch(apiConnectionStatus(false));
+      }).catch(error => {
+      dispatch(fetchOrdersFailed(error));
+      dispatch(apiConnectionStatus(false));
+    });
   }
 };
 
@@ -38,32 +36,29 @@ export const fetchOrderById = id => {
     const queryParam = `/orders/${id}.json`;
 
     dispatch(apiConnectionStatus(true));
-    const ordersRes = await axios.get(queryParam);
-
-    if (ordersRes instanceof Error) {
-      dispatch(fetchOrderByIdFailed(ordersRes));
-    } else {
-      dispatch(setOrderById(ordersRes));
-    }
-
-    dispatch(apiConnectionStatus(false));
+    axios.get(queryParam)
+      .then(res => {
+        dispatch(setOrderById(res));
+        dispatch(apiConnectionStatus(false));
+      }).catch(error => {
+        dispatch(fetchOrderByIdFailed(error));
+        dispatch(apiConnectionStatus(false));
+    });
   }
 };
 
 //Send order to the API => "Async Code"
 export const postOrder = order => {
-  return async dispatch => {
-    let orderResponse;
+  return dispatch => {
 
     dispatch(apiConnectionStatus(true));
-    orderResponse = await axios.post('/orders.json', order);
-
-    if (orderResponse instanceof Error) {
-      dispatch(postOrderFailed(orderResponse));
-    } else {
-      dispatch(postOrderSucceed(orderResponse));
-    }
-
-    dispatch(apiConnectionStatus(false));
+    axios.post('/orders.json', order)
+      .then(res => {
+      dispatch(postOrderSucceed(res));
+      dispatch(apiConnectionStatus(false));
+    }).catch(error => {
+      dispatch(postOrderFailed(error));
+      dispatch(apiConnectionStatus(false));
+    });
   }
 };

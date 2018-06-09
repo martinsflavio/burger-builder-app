@@ -10,8 +10,8 @@ const HasOrder = (props) => {
       <div>
         <h3>TotalPrice:<span> $ {props.confirmedOrder.totalPrice.toFixed(2)}</span></h3>
         <h4>Order protocol: <span>{props.id}</span></h4>
-        <Button btnType="Success" clicked={() => props.redirectTo("/orders")}>See my Orders</Button>
-        <Button btnType="Success" clicked={() => props.redirectTo("/")}>Build another Burger</Button>
+        <Button clicked={() => props.redirectTo("/orders")}>See my Orders</Button>
+        <Button clicked={() => props.redirectTo("/")}>Build another Burger</Button>
       </div>
     </div>
   );

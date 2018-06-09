@@ -35,7 +35,7 @@ class BurgerIngredient extends Component {
     }
     return ingredient;
   }
-};
+}
 
 // Props validation
 BurgerIngredient.propTypes = {
