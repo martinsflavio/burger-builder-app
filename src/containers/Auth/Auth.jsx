@@ -71,32 +71,34 @@ class Auth extends Component {
   };
 
   render () {
+    // Temporary feedback from the auth functionality
     let user = null, error = null;
-
     if (this.props.user) {
-      user = <p>User Exist.</p>
+      user = <p>User was created or is Valid.</p>
     }
     if (this.props.error) {
       error = this.props.error.data.error.message;
     }
+    ////////////////////////////////////////////////////////
     return (
       <div className={classes.Auth}>
        <div>
-         <h2>
-           { this.state.createNewAccount ? "Sign Up" : "Sign In" }
-         </h2>
+         <h2>{ this.state.createNewAccount ? "Sign Up" : "Log In" }</h2>
        </div>
-        <Form
-          controls={objDeepCopy(this.state.controls)}
-          updateControlsValue={(prevState) => this.updateControlsValueHandler(prevState)}
-          submitHandler={this.submitHandler}
-          formIsValid={this.state.formIsValid}
-        />
+        <div>
+          <Form
+            controls={objDeepCopy(this.state.controls)}
+            updateControlsValue={(prevState) => this.updateControlsValueHandler(prevState)}
+            submitHandler={this.submitHandler}
+            formIsValid={this.state.formIsValid}
+          />
+        </div>
         <div>
           {
             this.state.createNewAccount ?
-              <p>Do you have an account?
-                <strong onClick={this.switchAuthModeHandler}> Sign In.</strong>
+              <p>Click
+                <strong onClick={this.switchAuthModeHandler}> HERE </strong>
+                to log in with a existent account.
               </p> :
               <p>Don't have an account?
                 <strong onClick={this.switchAuthModeHandler}> Create one.</strong>

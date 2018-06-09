@@ -6,7 +6,7 @@ export const initialState = {
 };
 
 const apiConnectionStatus = (state, {payload}) => {
-  let newState, updatedState, loadingState;
+  let newState, loadingState;
 
   newState = objDeepCopy(state);
 
@@ -22,12 +22,10 @@ const apiConnectionStatus = (state, {payload}) => {
     loadingState = payload;
   }
 
-  updatedState = {
+  return {
     ...newState,
     loading: loadingState
   };
-
-  return updatedState;
 };
 
 export const apiConnection = (state = initialState, action) => {

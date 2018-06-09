@@ -10,7 +10,7 @@ export const initialState = {
 };
 
 const ingredientsUpdate = (state, action) => {
-  let newState, updatedState;
+  let newState;
 
   newState = objDeepCopy(state);
 
@@ -19,44 +19,33 @@ const ingredientsUpdate = (state, action) => {
     case actionTypes.ADD_INGREDIENT:
       newState.ingredients[action.payload.ingredientName] = newState.ingredients[action.payload.ingredientName] + 1;
       newState.totalPrice = newState.totalPrice + newState.ingredientsPrices[action.payload.ingredientName];
-      updatedState = newState;
     break;
     case actionTypes.REMOVE_INGREDIENT:
       newState.ingredients[action.payload.ingredientName] = newState.ingredients[action.payload.ingredientName] - 1;
       newState.totalPrice = newState.totalPrice - newState.ingredientsPrices[action.payload.ingredientName];
-      updatedState = newState;
     break;
-    default:
-      updatedState = state;
+    default: return newState;
   }
-  return updatedState;
+  return newState;
 };
 
 const setIngredients = (state, {payload:{data}}) => {
-  let newState, updatedState;
+  let newState = objDeepCopy(state);
 
-  newState = objDeepCopy(state);
-
-  updatedState = {
+  return {
     ...newState,
     ...data,
     error: null
   };
-
-  return updatedState;
 };
 
 const fetchIngredientsFailed = (state, {payload:{message}}) => {
-  let newState, updatedState;
+  let newState = objDeepCopy(state);
 
-  newState = objDeepCopy(state);
-
-  updatedState = {
+  return {
     ...newState,
     error: message
   };
-
-  return updatedState;
 };
 
 const burgerBuilder = (state = initialState, action) => {

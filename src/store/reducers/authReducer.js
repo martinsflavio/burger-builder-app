@@ -7,36 +7,29 @@ const initialState = {
 };
 
 const authSuccess = (state, {payload}) => {
-  let newState, updatedState;
+  let newState = objDeepCopy(state);
 
-  newState = objDeepCopy(state);
-  updatedState = {
+  return {
     ...newState,
     error: null,
     user: payload
   };
-  return updatedState;
 };
 
 const authFail = (state, {payload}) => {
-  let newState, updatedState;
+  let newState = objDeepCopy(state);
 
-  newState = objDeepCopy(state);
-  updatedState = {
+  return {
     ...newState,
     user: null,
     error: payload
   };
-  return updatedState;
 };
 
-
 const auth = (state = initialState, action) => {
-
   switch (action.type) {
     case actionTypes.AUTH_SUCCESS: return authSuccess(state, action);
     case actionTypes.AUTH_FAIL: return authFail(state, action);
-
     default: return state;
   }
 

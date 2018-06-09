@@ -22,78 +22,61 @@ const orderArrayBuilder = ordObj => {
 
 // Orders list related func's
 const setOrders = (state, {payload:{data}}) => {
-  let newState, updatedState;
+  let newState = objDeepCopy(state);
 
-  newState = objDeepCopy(state);
-  updatedState = {
+  return {
     ...newState,
     error: null,
     ordersArray: orderArrayBuilder(data)
   };
-  return updatedState;
 };
 
 const fetchOrdersFailed = (state, {payload:{message}}) => {
-  let newState, updatedState;
+  let newState = objDeepCopy(state);
 
-  newState = objDeepCopy(state);
-  updatedState = {
+  return {
     ...newState,
     error: message
   };
-
-  return updatedState;
 };
 
 const postOrderSucceed = (state, {payload:{data}}) => {
-  let newState, updatedState;
+  let newState  = objDeepCopy(state);
 
-  newState = objDeepCopy(state);
-  updatedState = {
+  return {
     ...newState,
     error: null,
     postSucceedId: data.name
   };
-
-  return updatedState;
 };
 
 const postOrderFailed = (state, {payload:{message}}) => {
-  let newState, updatedState;
+  let newState = objDeepCopy(state);
 
-  newState = objDeepCopy(state);
-  updatedState = {
+  return {
     ...newState,
     error: message
   };
-
-  return updatedState;
 };
 
 // Single Order related func's
 const setOrderById = (state, {payload:{data}}) => {
-  let newState, updatedState;
+  let newState = objDeepCopy(state);
 
-  newState = objDeepCopy(state);
-  updatedState = {
+  return {
     ...newState,
     error: null,
     confirmedOrder: data
   };
-
-  return updatedState;
 };
 
 const setOrderByIdFailed = (state, {payload:{message}}) => {
-  let newState, updatedState;
+  let newState = objDeepCopy(state);
 
-  newState = objDeepCopy(state);
-  updatedState = {
+  return {
     ...newState,
     error: message
   };
-
-  return updatedState;
 };
 
 export const order = (state = initialState, action) => {

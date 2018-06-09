@@ -7,15 +7,15 @@ import classes from './layout.css';
 class Layout extends Component {
   state = {
     showSideDrawer: false
-  }
+  };
 
   sideDrawerClosedhandler = () => {
     this.setState({ showSideDrawer: false });
-  }
+  };
 
   sideDrawerToogleHandler = () => {
     this.setState(prevState => ({ showSideDrawer: !prevState.showSideDrawer }));
-  }
+  };
 
   render() {
     return (
