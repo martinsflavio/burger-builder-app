@@ -6,28 +6,40 @@ const initialState = {
   error: null
 };
 
-const authSuccess = (state, {payload}) => {
+const authSuccess = (state, {payload:{data}}) => {
   let newState = objDeepCopy(state);
+
+  if (data.idToken && data.expiresIn && data.localId) {
+    let tokenExpiration = new Date(new Date().getTime() + data.expiresIn * 1000);
+
+    localStorage.setItem("token", data.idToken);
+    localStorage.setItem("userId", data.localId);
+    localStorage.setItem("tokenExpiration", tokenExpiration.toString());
+  }
 
   return {
     ...newState,
     error: null,
-    user: payload
+    user: data
   };
 };
 
-const authFail = (state, {payload}) => {
+const authFail = (state, {payload:{data:{error}}}) => {
   let newState = objDeepCopy(state);
 
   return {
     ...newState,
     user: null,
-    error: payload
+    error
   };
 };
 
 const authLogout = (state) => {
   let newState = objDeepCopy(state);
+
+  localStorage.removeItem("token");
+  localStorage.removeItem("userId");
+  localStorage.removeItem("tokenExpiration");
 
   return {
     ...newState,

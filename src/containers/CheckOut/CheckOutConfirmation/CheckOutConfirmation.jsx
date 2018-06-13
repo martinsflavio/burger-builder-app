@@ -13,7 +13,7 @@ class CheckoutConfirmation extends Component {
 
   componentDidMount () {
     if (this.props.postSucceedId) {
-      this.props.fetchOrderById(this.props.postSucceedId);
+      this.props.fetchOrderById(this.props.postSucceedId, this.props.user.idToken);
     } else {
       this.props.history.push("/");
     }
@@ -48,17 +48,19 @@ class CheckoutConfirmation extends Component {
   };
 }
 
-const mapStateToProps = ({orders: {postSucceedId, confirmedOrder, error}}) => {
+const mapStateToProps = ({ orders: {postSucceedId, confirmedOrder, error},
+                           auth:   {user}}) => {
   return {
     postSucceedId,
     confirmedOrder,
+    user,
     error
   }
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchOrderById: (orderId) => dispatch(action.fetchOrderById(orderId))
+    fetchOrderById: (orderId, token) => dispatch(action.fetchOrderById(orderId, token))
   }
 };
 

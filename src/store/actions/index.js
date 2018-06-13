@@ -14,5 +14,6 @@ export { apiConnectionStatus } from './apiConnectionActions';
 
 export {
   authStart,
-  authLogout
+  authLogout,
+  checkAuthState
 } from './authActions';

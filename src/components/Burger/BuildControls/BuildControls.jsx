@@ -36,8 +36,9 @@ class BuildControls extends Component {
         <button
           className={classes.OrderButton}
           disabled={!this.props.disableCheckoutBtn}
-          onClick={this.props.showOrderSummaryModalHandler}
-        >CheckOut</button>
+          onClick={this.props.showOrderSummaryModalHandler}>
+          {this.props.isAuthenticated ? 'CheckOut' : 'Log In to order'  }
+        </button>
       </div>
     );
   }

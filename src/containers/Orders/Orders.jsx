@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from '../../utils/axiosAPI';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import * as action from '../../store/actions/index';
 
 import classes from './orders.css';
@@ -11,7 +12,9 @@ import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
 class Orders extends Component {
 
   componentDidMount () {
-    this.props.fetchOrders();
+    if (this.props.user) {
+      this.props.fetchOrders(this.props.user.idToken);
+    }
   };
 
   shouldComponentUpdate (nextProps) {
@@ -47,7 +50,11 @@ class Orders extends Component {
 
     return (
       <div className={classes.Orders}>
-        { ordersList }
+        {
+          this.props.user ?
+            ordersList :
+            <Redirect to="/auth"/>
+        }
         { errorMessage }
       </div>
     );
@@ -55,17 +62,20 @@ class Orders extends Component {
 }
 
 // Destructuring state
-const mapStateToProps = ({apiConnection:{loading}, orders: {ordersArray, error}}) => {
+const mapStateToProps = ({ apiConnection:  {loading},
+                           orders:         {ordersArray, error},
+                           auth:           {user}}) => {
   return {
     ordersArray,
     error,
-    loading
+    loading,
+    user
   }
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchOrders: () => dispatch(action.fetchOrders())
+    fetchOrders: (token) => dispatch(action.fetchOrders(token))
   }
 };
 

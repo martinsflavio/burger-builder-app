@@ -15,11 +15,11 @@ export const setOrderById = data => ({type: actionTypes.SET_ORDER_BY_ID, payload
 export const fetchOrderByIdFailed = error => ({type: actionTypes.FETCH_ORDER_BY_ID_FAILED, payload: error});
 
 //Fetch all The orders from API => "Async Code"
-export const fetchOrders = () => {
+export const fetchOrders = (token) => {
   return  async dispatch => {
 
     dispatch(apiConnectionStatus(true));
-    axios.get('/orders.json')
+    axios.get(`/orders.json?auth=${token}`)
       .then(res => {
         dispatch(setOrders(res));
         dispatch(apiConnectionStatus(false));
@@ -31,9 +31,9 @@ export const fetchOrders = () => {
 };
 
 //Fetch a single order from API by the ID => "Async Code"
-export const fetchOrderById = id => {
+export const fetchOrderById = (id, token) => {
   return async dispatch => {
-    const queryParam = `/orders/${id}.json`;
+    const queryParam = `/orders/${id}.json?auth=${token}`;
 
     dispatch(apiConnectionStatus(true));
     axios.get(queryParam)
@@ -48,11 +48,11 @@ export const fetchOrderById = id => {
 };
 
 //Send order to the API => "Async Code"
-export const postOrder = order => {
+export const postOrder = (order, token) => {
   return dispatch => {
 
     dispatch(apiConnectionStatus(true));
-    axios.post('/orders.json', order)
+    axios.post(`/orders.json?auth=${token}`, order)
       .then(res => {
       dispatch(postOrderSucceed(res));
       dispatch(apiConnectionStatus(false));

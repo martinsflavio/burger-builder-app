@@ -25,12 +25,17 @@ class BurgerBuilder extends Component {
 
   disableIngBtnHandler = type => this.props.ingredients[type] <= 0;
 
-  showOrderSummaryModalHandler = () => this.setState({ showOrderSummaryModal: true });
+  showOrderSummaryModalHandler = () => {
+    if (this.props.isAuthenticated) {
+      this.setState({ showOrderSummaryModal: true });
+    } else {
+      this.props.history.push('/auth');
+    }
+  };
 
   purchaseCanceledHandler = () => this.setState({ showOrderSummaryModal: false });
 
   purchaseContinueHandler = () => this.props.history.push('/checkout');
-
 
   render() {
     let orderSummary, burger, burgerHasIngredients;
@@ -54,9 +59,11 @@ class BurgerBuilder extends Component {
             removeIngMethod={this.props.onIngredientRemoved}
             disableIngBtnHandler={this.disableIngBtnHandler}
             showOrderSummaryModalHandler={this.showOrderSummaryModalHandler}
+            isAuthenticated={this.props.isAuthenticated}
           />
         </Fragment>
       );
+
       orderSummary = (
         <OrderSummary
           burgerPrice={this.props.totalPrice}
@@ -76,21 +83,23 @@ class BurgerBuilder extends Component {
         <Modal
           show={this.state.showOrderSummaryModal}
           clickedOutSide={this.purchaseCanceledHandler}>
-          {orderSummary}
+          { orderSummary }
         </Modal>
-        {burger}
+        { burger }
       </Fragment>
     );
   }
 }
 
 // Destructuring state
-const mapStateToProps = ({burgerBuilder:  {ingredients, totalPrice, error},
-                          apiConnection:  {loading}}) => {
+const mapStateToProps = ({ burgerBuilder:  {ingredients, totalPrice, error},
+                           apiConnection:  {loading},
+                           auth:           {user} }) => {
   return {
     ingredients,
     totalPrice,
     loading,
+    isAuthenticated: user !== null,
     error
   }
 };

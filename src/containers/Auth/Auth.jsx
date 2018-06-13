@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as action from '../../store/actions/index';
 import objDeepCopy from "../../utils/objDeepCopy";
@@ -72,21 +73,21 @@ class Auth extends Component {
   };
 
   render () {
-    // Temporary feedback from the auth functionality
-    console.log('[auth component]');
-    let user = null, error = null;
-    if (this.props.user) {
-      user = <p>User was created or is Valid.</p>
-    }
-    if (this.props.error) {
-      error = this.props.error.data.error.message;
-    }
-    ////////////////////////////////////////////////////////
+    let authElements, redirect = null, errorMessage = null;
 
-    let authElements = (
+    if (this.props.user) {
+      redirect = (<Redirect to="/"/>);
+    }
+
+    if (this.props.error) {
+      errorMessage = this.props.error.message;
+    }
+
+    authElements = (
       <div>
         <div>
           <h2>{ this.state.createNewAccount ? "Sign Up" : "Log In" }</h2>
+          <h2>{ errorMessage }</h2>
         </div>
         <div>
           <Form
@@ -108,8 +109,6 @@ class Auth extends Component {
               </p>
           }
         </div>
-        { user }
-        { error }
       </div>
     );
 
@@ -119,6 +118,7 @@ class Auth extends Component {
 
     return (
       <div className={classes.Auth}>
+        { redirect }
         { authElements }
       </div>
     );
