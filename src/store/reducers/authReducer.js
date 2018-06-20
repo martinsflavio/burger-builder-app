@@ -9,14 +9,6 @@ const initialState = {
 const authSuccess = (state, {payload:{data}}) => {
   let newState = objDeepCopy(state);
 
-  if (data.idToken && data.expiresIn && data.localId) {
-    let tokenExpiration = new Date(new Date().getTime() + data.expiresIn * 1000);
-
-    localStorage.setItem("token", data.idToken);
-    localStorage.setItem("userId", data.localId);
-    localStorage.setItem("tokenExpiration", tokenExpiration.toString());
-  }
-
   return {
     ...newState,
     error: null,
@@ -37,13 +29,23 @@ const authFail = (state, {payload:{data:{error}}}) => {
 const authLogout = (state) => {
   let newState = objDeepCopy(state);
 
-  localStorage.removeItem("token");
-  localStorage.removeItem("userId");
-  localStorage.removeItem("tokenExpiration");
-
   return {
     ...newState,
     user: null
+  }
+};
+
+const checkAuthState = (state, {payload=null}) => {
+  const newState = objDeepCopy(state);
+  let user = null;
+
+  if (payload) {
+    user = payload.user
+  }
+
+  return {
+    ...newState,
+    user
   }
 };
 
@@ -52,6 +54,8 @@ const auth = (state = initialState, action) => {
     case actionTypes.AUTH_SUCCESS: return authSuccess(state, action);
     case actionTypes.AUTH_FAIL: return authFail(state, action);
     case actionTypes.AUTH_LOGOUT: return authLogout(state);
+    case actionTypes.CHECK_AUTH_STATE: return checkAuthState(state, action);
+
     default: return state;
   }
 };

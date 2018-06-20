@@ -10,17 +10,7 @@ export const authFail = error => ({type: actionTypes.AUTH_FAIL, payload: error})
 
 export const authLogout = () => ({type: actionTypes.AUTH_LOGOUT});
 
-export const checkAuthState = () => {
-  let token = null, tokenExpiration = null, userId = null;
-
-    tokenExpiration = new Date(localStorage.getItem("tokenExpiration"));
-    token = localStorage.getItem("token");
-    userId = localStorage.getItem('userId');
-
-  return dispatch => {
-    //TODO DEVELOPER: ADD LOGIC TO VALIDATE USER
-  }
-};
+export const checkAuthState = () => ({type: actionTypes.CHECK_AUTH_STATE});
 
 // Fetch data from API "Async Code"
 export const authStart = (email, password, createNewAccount) => {
