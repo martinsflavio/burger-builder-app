@@ -1,8 +1,8 @@
-import { combineReducers } from 'redux';
-import burgerBuilder from './burgerbuilderReducer';
-import orders from './orderReducer';
-import apiConnection from './apiConnectionReducer';
-import auth from './authReducer';
+import { combineReducers } from "redux";
+import burgerBuilder from "./burgerbuilderReducer";
+import orders from "./orderReducer";
+import apiConnection from "./apiConnectionReducer";
+import auth from "./authReducer";
 
 
 const rootReducer = combineReducers({

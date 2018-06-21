@@ -1,4 +1,4 @@
-import * as actionTypes from '../actions/actionTypes';
+import * as actionTypes from "../actions/actionTypes";
 import objDeepCopy from "../../utils/objDeepCopy";
 
 const initialState = {
@@ -35,18 +35,20 @@ const authLogout = (state) => {
   }
 };
 
-const checkAuthState = (state, {payload=null}) => {
+const checkAuthState = (state, action) => {
   const newState = objDeepCopy(state);
-  let user = null;
 
-  if (payload) {
-    user = payload.user
+  if (action.payload) {
+    return {
+      ...newState,
+      user: action.payload.data
+    }
+  } else {
+    return {
+      ...newState
+    }
   }
 
-  return {
-    ...newState,
-    user
-  }
 };
 
 const auth = (state = initialState, action) => {
@@ -55,7 +57,6 @@ const auth = (state = initialState, action) => {
     case actionTypes.AUTH_FAIL: return authFail(state, action);
     case actionTypes.AUTH_LOGOUT: return authLogout(state);
     case actionTypes.CHECK_AUTH_STATE: return checkAuthState(state, action);
-
     default: return state;
   }
 };

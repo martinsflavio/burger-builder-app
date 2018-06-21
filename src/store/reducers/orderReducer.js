@@ -1,4 +1,4 @@
-import * as actionTypes from '../actions/actionTypes';
+import * as actionTypes from "../actions/actionTypes";
 import objDeepCopy from "../../utils/objDeepCopy";
 
 export const initialState = {
@@ -87,7 +87,6 @@ export const order = (state = initialState, action) => {
     case actionTypes.POST_ORDER_FAILED: return postOrderFailed(state, action);
     case actionTypes.SET_ORDER_BY_ID: return setOrderById(state, action);
     case actionTypes.FETCH_ORDER_BY_ID_FAILED: return setOrderByIdFailed(state, action);
-
     default: return state;
   }
 };

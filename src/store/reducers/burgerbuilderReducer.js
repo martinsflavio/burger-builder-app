@@ -1,5 +1,5 @@
-import * as actionTypes from '../actions/actionTypes';
-import objDeepCopy from '../../utils/objDeepCopy';
+import * as actionTypes from "../actions/actionTypes";
+import objDeepCopy from "../../utils/objDeepCopy";
 
 export const initialState = {
   ingredients: null,

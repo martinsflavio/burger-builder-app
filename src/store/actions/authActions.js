@@ -1,6 +1,6 @@
 import * as actionTypes from "./actionTypes";
 import axios from "axios";
-import { apiConnectionStatus } from './apiConnectionActions';
+import { apiConnectionStatus } from "./apiConnectionActions";
 
 const API_KEY = "AIzaSyDpTWzHu6GlufJ1S6Ng4DPI9DdQ7m8dH5Y";
 
@@ -33,7 +33,6 @@ export const authStart = (email, password, createNewAccount) => {
     axios.post(queryUrl.concat(API_KEY), userData)
       .then(res => {
         dispatch(authSuccess(res));
-        dispatch(checkUserTimeOut(res));
         dispatch(apiConnectionStatus(false));
       }).catch(err => {
         dispatch(authFail(err.response));
@@ -43,12 +42,14 @@ export const authStart = (email, password, createNewAccount) => {
   }
 };
 
+/*
 // Async Function that dispatch logOut function upon token expiration time
-const checkUserTimeOut = ({data:{expiresIn}}) => {
+const checkUserTimeOut = (expiresIn) => {
   console.log("checkUserTimeOut was invoked");
+  console.log(`Token expires in: ${+expiresIn}`);
   return dispatch => {
     setTimeout(() =>{
       dispatch(authLogout())
-    }, +expiresIn * 1000);
+    }, +expiresIn);
   }
-};
+};*/
