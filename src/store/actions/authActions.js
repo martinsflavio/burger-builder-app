@@ -42,15 +42,3 @@ export const authStart = (email, password, createNewAccount) => {
   }
 };
 
-// TODO DEVELOPER: add setTimeOut in the boddy of the actions
-/*
-// Async Function that dispatch logOut function upon token expiration time
-const checkUserTimeOut = (expiresIn) => {
-  console.log("checkUserTimeOut was invoked");
-  console.log(`Token expires in: ${+expiresIn}`);
-  return dispatch => {
-    setTimeout(() =>{
-      dispatch(authLogout())
-    }, +expiresIn);
-  }
-};*/

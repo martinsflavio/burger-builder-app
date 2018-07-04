@@ -16,7 +16,7 @@ const asyncAuth = AsyncComponent(() => import("./Auth/Auth"));
 
 class App extends Component {
 
-  componentDidMount () {
+  componentWillUpdate () {
     this.props.checkAuthState();
   }
 

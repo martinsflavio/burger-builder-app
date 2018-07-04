@@ -9,10 +9,9 @@ const userDataTransformer = (user) => {
     let currentDate, tokenExpirationTime, newUser, tokenLiveTime;
 
     newUser = objDeepCopy(user);
-    tokenLiveTime = (newUser.expiresIn) * 1000;
+    tokenLiveTime = (Number(newUser.expiresIn) * 1000);
     currentDate = Date.now();
     tokenExpirationTime = currentDate + tokenLiveTime;
-
 
     return {
       ...newUser,
@@ -21,7 +20,7 @@ const userDataTransformer = (user) => {
   }
 };
 
-// localStorage manipulators
+// localStorage manipulation
 const setToLocalStorage = (next, action) => {
   const newActionCopy = objDeepCopy(action);
   const user = userDataTransformer(newActionCopy.payload.data);
@@ -57,7 +56,6 @@ const getFromLocalStorage = (next, action) => {
 
     if (tokenExpirationTime > currentDate) {
       newAction.payload = localUser;
-
       next(newAction);
     } else {
       localStorage.removeItem("user");

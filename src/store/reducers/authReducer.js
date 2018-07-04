@@ -31,7 +31,8 @@ const authLogout = (state) => {
 
   return {
     ...newState,
-    user: null
+    user: null,
+    error: null
   }
 };
 
@@ -45,7 +46,9 @@ const checkAuthState = (state, action) => {
     }
   } else {
     return {
-      ...newState
+      ...newState,
+      user: null,
+      error: null
     }
   }
 
