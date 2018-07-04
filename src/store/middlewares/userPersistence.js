@@ -9,8 +9,7 @@ const userDataTransformer = (user) => {
     let currentDate, tokenExpirationTime, newUser, tokenLiveTime;
 
     newUser = objDeepCopy(user);
-    // TODO REMOVE - 3550
-    tokenLiveTime = (newUser.expiresIn - 3550) * 1000;
+    tokenLiveTime = (newUser.expiresIn) * 1000;
     currentDate = Date.now();
     tokenExpirationTime = currentDate + tokenLiveTime;
 

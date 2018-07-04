@@ -122,7 +122,7 @@ class ContactData extends Component {
       }
     }
 
-    this.props.postOrder(updatedControls, this.props.user.idToken);
+    this.props.postOrder(updatedControls, this.props.user.localId, this.props.user.idToken);
   };
 
   updateControlsValueHandler = (newState) => {
@@ -167,7 +167,7 @@ const mapStateToProps = ({burgerBuilder:  {ingredients, totalPrice},
 
 const mapDispatchToProps = dispatch => {
   return {
-    postOrder: (order, token) => dispatch(action.postOrder(order, token)),
+    postOrder: (order, userId, token) => dispatch(action.postOrder(order, userId, token)),
   }
 };
 

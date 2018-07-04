@@ -13,13 +13,11 @@ class CheckoutConfirmation extends Component {
 
   componentDidMount () {
     if (this.props.postSucceedId) {
-      this.props.fetchOrderById(this.props.postSucceedId, this.props.user.idToken);
+      this.props.fetchOrderById(this.props.user.localId, this.props.postSucceedId, this.props.user.idToken);
     } else {
       this.props.history.push("/");
     }
   }
-
-  redirectHandler = path => this.props.history.push(path);
 
   render () {
     let checkOutState = null;
@@ -28,8 +26,7 @@ class CheckoutConfirmation extends Component {
       if (this.props.confirmedOrder) {
         checkOutState = (<HasOrder
                             confirmedOrder={this.props.confirmedOrder}
-                            id={this.props.postSucceedId}
-                            redirectTo={this.redirectHandler}/>);
+                            id={this.props.postSucceedId}/>);
       }
       if (this.props.error){
         checkOutState = (<HasError error={this.props.error}/>);
@@ -60,7 +57,7 @@ const mapStateToProps = ({ orders: {postSucceedId, confirmedOrder, error},
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchOrderById: (orderId, token) => dispatch(action.fetchOrderById(orderId, token))
+    fetchOrderById: (userId, orderId, token) => dispatch(action.fetchOrderById(userId, orderId, token))
   }
 };
 

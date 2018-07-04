@@ -13,7 +13,7 @@ class Orders extends Component {
 
   componentDidMount () {
     if (this.props.user) {
-      this.props.fetchOrders(this.props.user.idToken);
+      this.props.fetchOrders(this.props.user.localId, this.props.user.idToken);
     }
   };
 
@@ -75,7 +75,7 @@ const mapStateToProps = ({ apiConnection:  {loading},
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchOrders: (token) => dispatch(action.fetchOrders(token))
+    fetchOrders: (userId, token) => dispatch(action.fetchOrders(userId, token))
   }
 };
 

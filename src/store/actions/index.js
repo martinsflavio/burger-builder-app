@@ -10,7 +10,9 @@ export {
   postOrder
 } from './orderActions';
 
-export { apiConnectionStatus } from './apiConnectionActions';
+export {
+  apiConnectionStatus
+} from './apiConnectionActions';
 
 export {
   authStart,

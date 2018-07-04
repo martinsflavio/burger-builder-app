@@ -13,7 +13,7 @@ const SideDrawer = (props) => {
   return (
     <Fragment>
       <Backdrop show={props.open} clicked={props.closed} /> {/*Passing boolean props doesn't require a prop declaration*/}
-      <div className={attachedClasses.join(' ')}>
+      <div className={attachedClasses.join(' ')} onClick={props.closed}>
         <div className={classes.Logo}>
           <Logo />
         </div>

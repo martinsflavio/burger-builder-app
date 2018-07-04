@@ -41,7 +41,7 @@ const checkAuthState = (state, action) => {
   if (action.payload) {
     return {
       ...newState,
-      user: action.payload.data
+      user: action.payload
     }
   } else {
     return {
