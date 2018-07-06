@@ -10,7 +10,7 @@ export const setIngredients = data => ({type: actionTypes.SET_INGREDIENTS, paylo
 
 export const fetchIngredientsFailed = error => ({type: actionTypes.FETCH_INGREDIENTS_FAILED, payload: error});
 
-// Fetch data from API "Async Code"
+// Fetch data from API => "Async Code"
 export const fetchIngredients = () => {
   return dispatch => {
 

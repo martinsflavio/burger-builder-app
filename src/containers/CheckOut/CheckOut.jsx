@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import classes from './checkOut.css';
 import CheckOutSummary from "../../components/Order/CheckOutSummary/CheckOutSummary";
 import ContactData from "./ContactData/ContactData";
-import burgerHasIngredients from "../../utils/burgerHasIngredients";
+import burgerHasIngredients from "../BurgerBuilder/burgerHasIngredients";
 
 class CheckOut extends Component {
 

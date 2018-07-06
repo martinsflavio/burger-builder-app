@@ -12,7 +12,7 @@ export const authLogout = () => ({type: actionTypes.AUTH_LOGOUT});
 
 export const checkAuthState = () => ({type: actionTypes.CHECK_AUTH_STATE});
 
-// Fetch data from API "Async Code"
+// Fetch data from API => "Async Code"
 export const authStart = (email, password, createNewAccount) => {
   return dispatch => {
     let queryUrl = null;
