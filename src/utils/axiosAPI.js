@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const config = {
-  baseURL: `https://burgerbuilder-c24ed.firebaseio.com/`
+  baseURL: `https://burger-builder-53cff.firebaseio.com/`
 };
 
 const instance = axios.create(config);
