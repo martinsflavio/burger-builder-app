@@ -2,7 +2,7 @@ import * as actionTypes from "./actionTypes";
 import axios from "axios";
 import { apiConnectionStatus } from "./apiConnectionActions";
 
-const API_KEY = "AIzaSyDpTWzHu6GlufJ1S6Ng4DPI9DdQ7m8dH5Y";
+const API_KEY = process.env.REACT_APP_FIRE_BASE_API_KEY;
 
 export const authSuccess = data => ({type: actionTypes.AUTH_SUCCESS, payload: data});
 
