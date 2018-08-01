@@ -1,1 +1,1 @@
-start: npm run build
+start: node ./scripts/build
