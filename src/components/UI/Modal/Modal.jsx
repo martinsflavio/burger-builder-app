@@ -3,7 +3,6 @@ import classes from './modal.css';
 import BackDrop from '../BackDrop/BackDrop';
 import PropTypes from 'prop-types';
 
-
 class Modal extends Component {
 
   shouldComponentUpdate (nextProps) {
